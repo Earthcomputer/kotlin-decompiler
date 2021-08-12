@@ -1,8 +1,18 @@
 // Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package org.jetbrains.java.decompiler.main;
 
+import kotlinx.metadata.Flag;
+import kotlinx.metadata.KmClass;
+import kotlinx.metadata.KmClassifier;
+import kotlinx.metadata.KmFunction;
+import kotlinx.metadata.KmProperty;
+import kotlinx.metadata.KmType;
+import kotlinx.metadata.jvm.KotlinClassMetadata;
 import net.fabricmc.fernflower.api.IFabricJavadocProvider;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.java.decompiler.code.CodeConstants;
+import org.jetbrains.java.decompiler.code.ModifierList;
+import org.jetbrains.java.decompiler.code.Modifiers;
 import org.jetbrains.java.decompiler.main.ClassesProcessor.ClassNode;
 import org.jetbrains.java.decompiler.main.collectors.BytecodeMappingTracer;
 import org.jetbrains.java.decompiler.main.extern.IFernflowerLogger;
@@ -320,7 +330,9 @@ public class ClassWriter {
         }
       }
 
-      buffer.appendIndent(indent).append('}');
+      if (!(cl.getKotlinMetadata() instanceof KotlinClassMetadata.FileFacade)) {
+        buffer.appendIndent(indent).append('}');
+      }
 
       if (node.type != ClassNode.CLASS_ANONYMOUS) {
         buffer.appendLineSeparator();
@@ -470,14 +482,25 @@ public class ClassWriter {
 
     ClassWrapper wrapper = node.getWrapper();
     StructClass cl = wrapper.getClassStruct();
+    @Nullable KotlinClassMetadata kotlinMetadata = cl.getKotlinMetadata();
+    @Nullable KmClass kmClass = cl.getKmClass();
 
     int flags = node.type == ClassNode.CLASS_ROOT ? cl.getAccessFlags() : node.access;
+    ModifierList modifiers = ModifierList.fromAccessFlags(flags);
+    if (modifiers.has(Modifiers.FINAL)) {
+      modifiers.remove(Modifiers.FINAL);
+    } else if (!modifiers.has(Modifiers.PRIVATE) && !modifiers.has(Modifiers.ABSTRACT)) {
+      modifiers.add(Modifiers.OPEN);
+    }
     boolean isDeprecated = cl.hasAttribute(StructGeneralAttribute.ATTRIBUTE_DEPRECATED);
-    boolean isSynthetic = (flags & CodeConstants.ACC_SYNTHETIC) != 0 || cl.hasAttribute(StructGeneralAttribute.ATTRIBUTE_SYNTHETIC);
-    boolean isEnum = DecompilerContext.getOption(IFernflowerPreferences.DECOMPILE_ENUM) && (flags & CodeConstants.ACC_ENUM) != 0;
-    boolean isInterface = (flags & CodeConstants.ACC_INTERFACE) != 0;
-    boolean isAnnotation = (flags & CodeConstants.ACC_ANNOTATION) != 0;
+    boolean isSynthetic = (flags & CodeConstants.ACC_SYNTHETIC) != 0 || cl.hasAttribute(StructGeneralAttribute.ATTRIBUTE_SYNTHETIC) || kotlinMetadata instanceof KotlinClassMetadata.SyntheticClass;
+    boolean isEnum = DecompilerContext.getOption(IFernflowerPreferences.DECOMPILE_ENUM) && ((flags & CodeConstants.ACC_ENUM) != 0 || (kmClass != null && Flag.Class.IS_ENUM_CLASS.invoke(kmClass.getFlags())));
+    boolean isInterface = (flags & CodeConstants.ACC_INTERFACE) != 0
+      || (kmClass != null && Flag.Class.IS_INTERFACE.invoke(kmClass.getFlags()))
+      || (kmClass != null && Flag.Class.IS_ANNOTATION_CLASS.invoke(kmClass.getFlags()));
+    boolean isAnnotation = (flags & CodeConstants.ACC_ANNOTATION) != 0 || (kmClass != null && Flag.Class.IS_ANNOTATION_CLASS.invoke(kmClass.getFlags()));
     boolean isModuleInfo = (flags & CodeConstants.ACC_MODULE) != 0 && cl.hasAttribute(StructGeneralAttribute.ATTRIBUTE_MODULE);
+    // TODO KOTLIN: multi file class facade
 
     if (isDeprecated) {
       appendDeprecation(buffer, indent);
@@ -498,31 +521,37 @@ public class ClassWriter {
 
     appendAnnotations(buffer, indent, cl, -1);
 
+    if (kotlinMetadata instanceof KotlinClassMetadata.FileFacade) {
+      return;
+    }
+
     buffer.appendIndent(indent);
 
     if (isEnum) {
       // remove abstract and final flags (JLS 8.9 Enums)
-      flags &= ~CodeConstants.ACC_ABSTRACT;
-      flags &= ~CodeConstants.ACC_FINAL;
+      modifiers.remove(Modifiers.ABSTRACT);
+      modifiers.remove(Modifiers.OPEN);
     }
 
     List<StructRecordComponent> components = cl.getRecordComponents();
 
-    if (components != null) {
-      // records are implicitly final
-      flags &= ~CodeConstants.ACC_FINAL;
+    if (node.type != ClassNode.CLASS_ROOT && (flags & CodeConstants.ACC_STATIC) != 0) {
+      modifiers.add(Modifiers.INNER); // TODO KOTLIN: @JvmStatic
     }
 
-    appendModifiers(buffer, flags, CLASS_ALLOWED, isInterface, CLASS_EXCLUDED);
+    if (modifiers.toJava(buffer)) {
+      buffer.append(' ');
+    }
 
     if (isEnum) {
       buffer.append("enum ");
     }
     else if (isInterface) {
       if (isAnnotation) {
-        buffer.append('@');
+        buffer.append("annotation class ");
+      } else {
+        buffer.append("interface ");
       }
-      buffer.append("interface ");
     }
     else if (isModuleInfo) {
       StructModuleAttribute moduleAttribute = cl.getAttribute(StructGeneralAttribute.ATTRIBUTE_MODULE);
@@ -535,10 +564,10 @@ public class ClassWriter {
       buffer.append(moduleAttribute.moduleName);
     }
     else if (components != null) {
-      buffer.append("record ");
+      buffer.append("data class "); // TODO KOTLIN @JvmRecord
     }
     else {
-      buffer.append("class ");
+      buffer.append("class "); // TODO KOTLIN be smarter with class metadata
     }
     buffer.append(node.simpleName);
 
@@ -548,6 +577,7 @@ public class ClassWriter {
     }
 
     if (components != null) {
+      // TODO KOTLIN: constructor
       buffer.append('(');
       for (int i = 0; i < components.size(); i++) {
         StructRecordComponent cd = components.get(i);
@@ -562,11 +592,14 @@ public class ClassWriter {
 
     buffer.append(' ');
 
+    boolean hasExtends = false;
     if (!isEnum && !isInterface && components == null && cl.superClass != null) {
       VarType supertype = new VarType(cl.superClass.getString(), true);
       if (!VarType.VARTYPE_OBJECT.equals(supertype)) {
-        buffer.append("extends ");
+        hasExtends = true;
+        buffer.append(" : ");
         buffer.append(ExprProcessor.getCastTypeName(descriptor == null ? supertype : descriptor.superclass));
+        buffer.append("()"); // TODO KOTLIN: superconstructor call
         buffer.append(' ');
       }
     }
@@ -574,9 +607,11 @@ public class ClassWriter {
     if (!isAnnotation) {
       int[] interfaces = cl.getInterfaces();
       if (interfaces.length > 0) {
-        buffer.append(isInterface ? "extends " : "implements ");
+        if (!hasExtends) {
+          buffer.append(" : ");
+        }
         for (int i = 0; i < interfaces.length; i++) {
-          if (i > 0) {
+          if (i > 0 || hasExtends) {
             buffer.append(", ");
           }
           buffer.append(ExprProcessor.getCastTypeName(descriptor == null ? new VarType(cl.getInterface(i), true) : descriptor.superinterfaces.get(i)));
@@ -597,9 +632,11 @@ public class ClassWriter {
 
   private void fieldToJava(ClassWrapper wrapper, StructClass cl, StructField fd, TextBuffer buffer, int indent, BytecodeMappingTracer tracer) {
     int start = buffer.length();
+    @Nullable KmProperty kmProperty = fd.getKmProperty(cl);
     boolean isInterface = cl.hasModifier(CodeConstants.ACC_INTERFACE);
     boolean isDeprecated = fd.hasAttribute(StructGeneralAttribute.ATTRIBUTE_DEPRECATED);
     boolean isEnum = fd.hasModifier(CodeConstants.ACC_ENUM) && DecompilerContext.getOption(IFernflowerPreferences.DECOMPILE_ENUM);
+    ModifierList modifierList = ModifierList.fromAccessFlags(fd.getAccessFlags());
 
     if (isDeprecated) {
       appendDeprecation(buffer, indent);
@@ -621,20 +658,30 @@ public class ClassWriter {
 
     buffer.appendIndent(indent);
 
-    if (!isEnum) {
-      appendModifiers(buffer, fd.getAccessFlags(), FIELD_ALLOWED, isInterface, FIELD_EXCLUDED);
+    boolean isVar = kmProperty != null ? Flag.Property.IS_VAR.invoke(kmProperty.getFlags()) : !modifierList.has(Modifiers.FINAL);
+    modifierList.remove(Modifiers.FINAL);
+
+    if (kmProperty != null && Flag.Property.IS_CONST.invoke(kmProperty.getFlags())) {
+      modifierList.add(Modifiers.CONST);
     }
+
+    if (!isEnum) {
+      if (modifierList.toJava(buffer)) {
+        buffer.append(' ');
+      }
+    }
+
+    buffer.append(isVar ? "var " : "val ");
+
+    buffer.append(fd.getName());
 
     Map.Entry<VarType, GenericFieldDescriptor> fieldTypeData = getFieldTypeData(fd);
     VarType fieldType = fieldTypeData.getKey();
     GenericFieldDescriptor descriptor = fieldTypeData.getValue();
 
     if (!isEnum) {
-      buffer.append(ExprProcessor.getCastTypeName(descriptor == null ? fieldType : descriptor.type));
-      buffer.append(' ');
+      buffer.append(": ").append(ExprProcessor.getCastTypeName(descriptor == null ? fieldType : descriptor.type));
     }
-
-    buffer.append(fd.getName());
 
     tracer.incrementCurrentSourceLine(buffer.countLines(start));
 
@@ -670,9 +717,12 @@ public class ClassWriter {
         buffer.append(new ConstExprent(fieldType, constant.value, null).toJava(indent, tracer));
       }
     }
+    else {
+      buffer.append(" = null"); // TODO KOTLIN: figure out better behaviour
+    }
 
     if (!isEnum) {
-      buffer.append(";").appendLineSeparator();
+      buffer.appendLineSeparator();
       tracer.incrementCurrentSourceLine();
     }
   }
@@ -812,6 +862,8 @@ public class ClassWriter {
   private boolean methodToJava(ClassNode node, StructMethod mt, int methodIndex, TextBuffer buffer, int indent, BytecodeMappingTracer tracer) {
     ClassWrapper wrapper = node.getWrapper();
     StructClass cl = wrapper.getClassStruct();
+    @Nullable KmClass kmClass = cl.getKmClass();
+    @Nullable KmFunction kmFunction = mt.getKmFunction(cl);
     // Get method by index, this keeps duplicate methods (with the same key) separate
     MethodWrapper methodWrapper = wrapper.getMethodWrapper(methodIndex);
 
@@ -822,14 +874,6 @@ public class ClassWriter {
     DecompilerContext.setProperty(DecompilerContext.CURRENT_METHOD_WRAPPER, methodWrapper);
 
     try {
-      boolean isInterface = cl.hasModifier(CodeConstants.ACC_INTERFACE);
-      boolean isAnnotation = cl.hasModifier(CodeConstants.ACC_ANNOTATION);
-      boolean isEnum = cl.hasModifier(CodeConstants.ACC_ENUM) && DecompilerContext.getOption(IFernflowerPreferences.DECOMPILE_ENUM);
-      boolean isDeprecated = mt.hasAttribute(StructGeneralAttribute.ATTRIBUTE_DEPRECATED);
-      boolean clInit = false, init = false, dInit = false;
-
-      MethodDescriptor md = MethodDescriptor.parseDescriptor(mt, node);
-
       int flags = mt.getAccessFlags();
       if ((flags & CodeConstants.ACC_NATIVE) != 0) {
         flags &= ~CodeConstants.ACC_STRICT; // compiler bug: a strictfp class sets all methods to strictfp
@@ -837,6 +881,23 @@ public class ClassWriter {
       if (CodeConstants.CLINIT_NAME.equals(mt.getName())) {
         flags &= CodeConstants.ACC_STATIC; // ignore all modifiers except 'static' in a static initializer
       }
+      ModifierList modifiers = ModifierList.fromAccessFlags(flags);
+      if (modifiers.has(Modifiers.FINAL)) {
+        modifiers.remove(Modifiers.FINAL);
+      } else if (!modifiers.has(Modifiers.PRIVATE) && !modifiers.has(Modifiers.ABSTRACT) && !cl.hasModifier(CodeConstants.ACC_PRIVATE)) {
+        modifiers.add(Modifiers.OPEN);
+      }
+
+      boolean isInterface = cl.hasModifier(CodeConstants.ACC_INTERFACE)
+        || (kmClass != null && Flag.Class.IS_INTERFACE.invoke(kmClass.getFlags()))
+        || (kmClass != null && Flag.Class.IS_ANNOTATION_CLASS.invoke(kmClass.getFlags()));
+      boolean isAnnotation = cl.hasModifier(CodeConstants.ACC_ANNOTATION) || (kmClass != null && Flag.Class.IS_ANNOTATION_CLASS.invoke(kmClass.getFlags()));
+      boolean isEnum = (cl.hasModifier(CodeConstants.ACC_ENUM) || (kmClass != null && Flag.Class.IS_ENUM_CLASS.invoke(kmClass.getFlags())))
+        && DecompilerContext.getOption(IFernflowerPreferences.DECOMPILE_ENUM);
+      boolean isDeprecated = mt.hasAttribute(StructGeneralAttribute.ATTRIBUTE_DEPRECATED);
+      boolean clInit = false, init = false, dInit = false;
+
+      MethodDescriptor md = MethodDescriptor.parseDescriptor(mt, node);
 
       if (isDeprecated) {
         appendDeprecation(buffer, indent);
@@ -862,6 +923,8 @@ public class ClassWriter {
 
       appendAnnotations(buffer, indent, mt, TypeAnnotation.METHOD_RETURN_TYPE);
 
+      buffer.appendIndent(indent);
+
       // Try append @Override after all other annotations
       if (!CodeConstants.INIT_NAME.equals(mt.getName()) && !CodeConstants.CLINIT_NAME.equals(mt.getName()) && !mt.hasModifier(CodeConstants.ACC_STATIC)  && !mt.hasModifier(CodeConstants.ACC_PRIVATE)) {
         // Search superclasses for methods that match the name and descriptor of this one.
@@ -869,29 +932,27 @@ public class ClassWriter {
         // TODO: record overrides
         boolean isOverride = searchForMethod(cl, mt.getName(), md, false);
         if (isOverride) {
-          buffer.appendIndent(indent);
-          buffer.append("@Override");
-          buffer.appendLineSeparator();
+          buffer.append("override ");
         }
       }
 
-      buffer.appendIndent(indent);
-
-      appendModifiers(buffer, flags, METHOD_ALLOWED, isInterface, METHOD_EXCLUDED);
-
-      if (isInterface && !mt.hasModifier(CodeConstants.ACC_STATIC) && mt.containsCode()) {
-        // 'default' modifier (Java 8)
-        buffer.append("default ");
+      if (modifiers.toJava(buffer)) {
+        buffer.append(' ');
       }
+
+//      if (isInterface && !mt.hasModifier(CodeConstants.ACC_STATIC) && mt.containsCode()) {
+//        // 'default' modifier (Java 8)
+//        buffer.append("default ");
+//      }
 
       String name = mt.getName();
       if (CodeConstants.INIT_NAME.equals(name)) {
         if (node.type == ClassNode.CLASS_ANONYMOUS) {
-          name = "";
+          name = "init";
           dInit = true;
         }
         else {
-          name = node.simpleName;
+          name = "constructor";
           init = true;
         }
       }
@@ -905,7 +966,8 @@ public class ClassWriter {
       int paramCount = 0;
 
       if (!clInit && !dInit) {
-        boolean thisVar = !mt.hasModifier(CodeConstants.ACC_STATIC);
+        KmType receiverType = kmFunction == null ? null : kmFunction.getReceiverParameterType();
+        boolean thisVar = !mt.hasModifier(CodeConstants.ACC_STATIC) || receiverType != null;
 
         if (descriptor != null && !descriptor.typeParameters.isEmpty()) {
           appendTypeParameters(buffer, descriptor.typeParameters, descriptor.typeParameterBounds);
@@ -913,8 +975,14 @@ public class ClassWriter {
         }
 
         if (!init) {
-          buffer.append(ExprProcessor.getCastTypeName(descriptor == null ? md.ret : descriptor.returnType));
-          buffer.append(' ');
+          buffer.append("fun ");
+        }
+
+        if (receiverType != null) {
+          if (receiverType.classifier instanceof KmClassifier.Class) { // TODO KOTLIN: KmType to string
+            buffer.append(DecompilerContext.getImportCollector().getShortName(((KmClassifier.Class) receiverType.classifier).getName()));
+            buffer.append('.');
+          }
         }
 
         buffer.append(toValidJavaIdentifier(name));
@@ -954,11 +1022,11 @@ public class ClassWriter {
             appendParameterAnnotations(buffer, mt, paramCount);
 
             if (methodParameters != null && i < methodParameters.size()) {
-              appendModifiers(buffer, methodParameters.get(i).myAccessFlags, CodeConstants.ACC_FINAL, isInterface, 0);
+              //appendModifiers(buffer, methodParameters.get(i).myAccessFlags, CodeConstants.ACC_FINAL, isInterface, 0);
             }
-            else if (methodWrapper.varproc.getVarFinal(new VarVersionPair(index, 0)) == VarTypeProcessor.VAR_EXPLICIT_FINAL) {
-              buffer.append("final ");
-            }
+//            else if (methodWrapper.varproc.getVarFinal(new VarVersionPair(index, 0)) == VarTypeProcessor.VAR_EXPLICIT_FINAL) {
+//              buffer.append("final ");
+//            }
 
             String typeName;
             boolean isVarArg = i == lastVisibleParameterIndex && mt.hasModifier(CodeConstants.ACC_VARARGS) && parameterType.arrayDim > 0;
@@ -971,12 +1039,9 @@ public class ClassWriter {
                 DecompilerContext.getOption(IFernflowerPreferences.UNDEFINED_PARAM_TYPE_OBJECT)) {
               typeName = ExprProcessor.getCastTypeName(VarType.VARTYPE_OBJECT);
             }
-            buffer.append(typeName);
             if (isVarArg) {
-              buffer.append("...");
+              buffer.append("vararg ");
             }
-
-            buffer.append(' ');
 
             String parameterName;
             if (methodParameters != null && i < methodParameters.size()) {
@@ -994,6 +1059,8 @@ public class ClassWriter {
 
             buffer.append(parameterName == null ? "param" + index : parameterName); // null iff decompiled with errors
 
+            buffer.append(": ").append(typeName);
+
             paramCount++;
           }
 
@@ -1002,20 +1069,28 @@ public class ClassWriter {
 
         buffer.append(')');
 
-        StructExceptionsAttribute attr = mt.getAttribute(StructGeneralAttribute.ATTRIBUTE_EXCEPTIONS);
-        if ((descriptor != null && !descriptor.exceptionTypes.isEmpty()) || attr != null) {
-          throwsExceptions = true;
-          buffer.append(" throws ");
-
-          boolean useDescriptor = hasDescriptor && !descriptor.exceptionTypes.isEmpty();
-          for (int i = 0; i < attr.getThrowsExceptions().size(); i++) {
-            if (i > 0) {
-              buffer.append(", ");
-            }
-            VarType type = useDescriptor ? descriptor.exceptionTypes.get(i) : new VarType(attr.getExcClassname(i, cl.getPool()), true);
-            buffer.append(ExprProcessor.getCastTypeName(type));
+        if (!init) {
+          VarType ret = descriptor == null ? md.ret : descriptor.returnType;
+          if (!ret.equals(VarType.VARTYPE_VOID)) { // TODO KOTLIN: Unit
+            buffer.append(": ").append(ExprProcessor.getCastTypeName(ret));
           }
         }
+
+        // TODO KOTLIN: @Throws
+//        StructExceptionsAttribute attr = mt.getAttribute(StructGeneralAttribute.ATTRIBUTE_EXCEPTIONS);
+//        if ((descriptor != null && !descriptor.exceptionTypes.isEmpty()) || attr != null) {
+//          throwsExceptions = true;
+//          buffer.append(" throws ");
+//
+//          boolean useDescriptor = hasDescriptor && !descriptor.exceptionTypes.isEmpty();
+//          for (int i = 0; i < attr.getThrowsExceptions().size(); i++) {
+//            if (i > 0) {
+//              buffer.append(", ");
+//            }
+//            VarType type = useDescriptor ? descriptor.exceptionTypes.get(i) : new VarType(attr.getExcClassname(i, cl.getPool()), true);
+//            buffer.append(ExprProcessor.getCastTypeName(type));
+//          }
+//        }
       }
 
       tracer.incrementCurrentSourceLine(buffer.countLines(start_index_method));
@@ -1029,7 +1104,6 @@ public class ClassWriter {
           }
         }
 
-        buffer.append(';');
         buffer.appendLineSeparator();
       }
       else {
@@ -1309,52 +1383,7 @@ public class ClassWriter {
     }
   }
 
-  private static final Map<Integer, String> MODIFIERS;
-  static {
-    MODIFIERS = new LinkedHashMap<>();
-    MODIFIERS.put(CodeConstants.ACC_PUBLIC, "public");
-    MODIFIERS.put(CodeConstants.ACC_PROTECTED, "protected");
-    MODIFIERS.put(CodeConstants.ACC_PRIVATE, "private");
-    MODIFIERS.put(CodeConstants.ACC_ABSTRACT, "abstract");
-    MODIFIERS.put(CodeConstants.ACC_STATIC, "static");
-    MODIFIERS.put(CodeConstants.ACC_FINAL, "final");
-    MODIFIERS.put(CodeConstants.ACC_STRICT, "strictfp");
-    MODIFIERS.put(CodeConstants.ACC_TRANSIENT, "transient");
-    MODIFIERS.put(CodeConstants.ACC_VOLATILE, "volatile");
-    MODIFIERS.put(CodeConstants.ACC_SYNCHRONIZED, "synchronized");
-    MODIFIERS.put(CodeConstants.ACC_NATIVE, "native");
-  }
-
-  private static final int CLASS_ALLOWED =
-    CodeConstants.ACC_PUBLIC | CodeConstants.ACC_PROTECTED | CodeConstants.ACC_PRIVATE | CodeConstants.ACC_ABSTRACT |
-    CodeConstants.ACC_STATIC | CodeConstants.ACC_FINAL | CodeConstants.ACC_STRICT;
-  private static final int FIELD_ALLOWED =
-    CodeConstants.ACC_PUBLIC | CodeConstants.ACC_PROTECTED | CodeConstants.ACC_PRIVATE | CodeConstants.ACC_STATIC |
-    CodeConstants.ACC_FINAL | CodeConstants.ACC_TRANSIENT | CodeConstants.ACC_VOLATILE;
-  private static final int METHOD_ALLOWED =
-    CodeConstants.ACC_PUBLIC | CodeConstants.ACC_PROTECTED | CodeConstants.ACC_PRIVATE | CodeConstants.ACC_ABSTRACT |
-    CodeConstants.ACC_STATIC | CodeConstants.ACC_FINAL | CodeConstants.ACC_SYNCHRONIZED | CodeConstants.ACC_NATIVE |
-    CodeConstants.ACC_STRICT;
-
-  private static final int CLASS_EXCLUDED = CodeConstants.ACC_ABSTRACT | CodeConstants.ACC_STATIC;
-  private static final int FIELD_EXCLUDED = CodeConstants.ACC_PUBLIC | CodeConstants.ACC_STATIC | CodeConstants.ACC_FINAL;
-  private static final int METHOD_EXCLUDED = CodeConstants.ACC_PUBLIC | CodeConstants.ACC_ABSTRACT;
-
   private static final int ACCESSIBILITY_FLAGS = CodeConstants.ACC_PUBLIC | CodeConstants.ACC_PROTECTED | CodeConstants.ACC_PRIVATE;
-
-  private static void appendModifiers(TextBuffer buffer, int flags, int allowed, boolean isInterface, int excluded) {
-    flags &= allowed;
-    if (!isInterface) excluded = 0;
-    for (int modifier : MODIFIERS.keySet()) {
-      if ((flags & modifier) == modifier && (modifier & excluded) == 0) {
-        buffer.append(MODIFIERS.get(modifier)).append(' ');
-      }
-    }
-  }
-
-  public static String getModifiers(int flags) {
-    return MODIFIERS.entrySet().stream().filter(e -> (e.getKey() & flags) != 0).map(Map.Entry::getValue).collect(Collectors.joining(" "));
-  }
 
   public static void appendTypeParameters(TextBuffer buffer, List<String> parameters, List<List<VarType>> bounds) {
     buffer.append('<');

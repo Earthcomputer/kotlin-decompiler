@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public record TestRecordSimple(int x, int y) {
-   public TestRecordSimple(int x, int y) {
+data class TestRecordSimple(int x, int y) {
+   open constructor(x: int, y: int) {
       this.x = x;// 3
       this.y = y;
    }

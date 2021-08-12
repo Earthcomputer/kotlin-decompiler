@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-public class TestArrayNull2 {
-   private TestArrayNull2(int[] array) {
+open class TestArrayNull2 {
+   private constructor(array: int[]) {
    }// 6
 
-   public void test() {
+   open fun test() {
       int[] array = null;// 9
       new TestArrayNull2(array);// 10
    }// 11

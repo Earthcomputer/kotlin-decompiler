@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestVarArgCalls {
-   public void doSmth() {
+open class TestVarArgCalls {
+   open fun doSmth() {
       this.printAll("Test");// 5
       this.printAll("Test: %s", "abc");// 6
       this.printAll("Test: %s - %s", "abc", "DEF");// 7
@@ -16,11 +16,11 @@ public class TestVarArgCalls {
       String.format("Test: %s", data);// 19
    }// 20
 
-   public void printAll(String fmt, String... params) {
+   open fun printAll(fmt: String, vararg params: String) {
       System.out.println(String.format(fmt, params));// 23
    }// 24
 
-   public void printComplex(String fmt, String[]... params) {
+   open fun printComplex(fmt: String, vararg params: String[]) {
       System.out.println(String.format(fmt, params));// 27
    }// 28
 }

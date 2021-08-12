@@ -1,17 +1,17 @@
-package pkg;
+package pkg
 
-public class TestInterfaceLambdaCast {
-   private static int x = (() -> {
+open class TestInterfaceLambdaCast {
+   private var x: int = (() -> {
       System.out.println("Hi");// 9
       return 1;// 10
-   }).get();
+   }).get()
 
-   private static void main() {
+   private fun main() {
       System.out.println(x);// 14
    }// 15
 
-   public interface Func {
-      int get();
+   abstract inner interface Func {
+      abstract fun get(): int
    }
 }
 

@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList
+import java.util.List
 
-public class TestClassCast {
-   public void test(List list) {
+open class TestClassCast {
+   open fun test(list: List) {
       List a = list;// 22
       if (list != null) {// 23
          (a = new ArrayList(list)).add("23");// 24

@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestNestedLoops2 {
-   public int foo(int i, int j) {
+open class TestNestedLoops2 {
+   open fun foo(i: int, j: int): int {
       while(true) {
          System.out.println("hi");// 6
 

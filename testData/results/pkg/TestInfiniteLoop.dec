@@ -1,46 +1,46 @@
-package pkg;
+package pkg
 
-public class TestInfiniteLoop {
-   public void test() {
+open class TestInfiniteLoop {
+   open fun test() {
       while(true) {
       }
    }
 
-   public int testRet() {
+   open fun testRet(): int {
       while(true) {
       }
    }
 
-   public int test2() {
+   open fun test2(): int {
       while(true) {
       }
    }
 
-   public int test3() {
+   open fun test3(): int {
       while(true) {
       }
    }
 
-   public void test4() {
+   open fun test4() {
       while(true) {
       }
    }
 
-   public int testIf(int i) {
+   open fun testIf(i: int): int {
       while(i != 3) {// 42
       }
 
       return 1;// 43
    }
 
-   public void testSuccessor1() {
+   open fun testSuccessor1() {
       int a = 0;// 49
 
       while(true) {
       }
    }
 
-   public void testSuccessor2(int i) {
+   open fun testSuccessor2(i: int) {
       int a = 0;// 56
       if (i == 0) {// 57
          a = 3;// 58
@@ -50,7 +50,7 @@ public class TestInfiniteLoop {
       }
    }
 
-   public void testSuccessor3(int i) {
+   open fun testSuccessor3(i: int) {
       int a = 0;// 67
       if (i > 0) {// 69
          --a;// 70
@@ -62,7 +62,7 @@ public class TestInfiniteLoop {
 
    }// 77
 
-   public void testSuccessor4(int i) {
+   open fun testSuccessor4(i: int) {
       i += 2;// 80
       --i;// 83
 

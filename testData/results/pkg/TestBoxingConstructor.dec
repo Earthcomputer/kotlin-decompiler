@@ -1,24 +1,24 @@
-package pkg;
+package pkg
 
-public class TestBoxingConstructor {
-   private int x;
-   private int y;
+open class TestBoxingConstructor {
+   private var x: int = null
+   private var y: int = null
 
-   public TestBoxingConstructor(int x, int y) {
+   open constructor(x: int, y: int) {
       this.x = x;// 8
       this.y = y;// 9
    }// 10
 
-   public TestBoxingConstructor(Object x, Object y) {
+   open constructor(x: Object, y: Object) {
       this.x = (Integer)x;// 13
       this.y = (Integer)y;// 14
    }// 15
 
-   public TestBoxingConstructor(Object x, Object y, boolean marker) {
+   open constructor(x: Object, y: Object, marker: boolean) {
       this(x, y);// 18
    }// 19
 
-   public TestBoxingConstructor(Object x, Object y, boolean marker, boolean marker2) {
+   open constructor(x: Object, y: Object, marker: boolean, marker2: boolean) {
       this(((Integer)x).intValue(), ((Integer)y).intValue());// 22
    }// 23
 }

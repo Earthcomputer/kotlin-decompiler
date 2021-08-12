@@ -1,67 +1,67 @@
-package pkg;
+package pkg
 
-public class TestInvertedFloatComparison {
-   public boolean less(double a, double b) {
+open class TestInvertedFloatComparison {
+   open fun less(a: double, b: double): boolean {
       return a < b;// 21
    }
 
-   public boolean less(int a, int b) {
+   open fun less(a: int, b: int): boolean {
       return a < b;// 25
    }
 
-   public boolean notLess(double a, double b) {
+   open fun notLess(a: double, b: double): boolean {
       return !(a < b);// 29
    }
 
-   public boolean notLess(int a, int b) {
+   open fun notLess(a: int, b: int): boolean {
       return a >= b;// 33
    }
 
-   public boolean greater(double a, double b) {
+   open fun greater(a: double, b: double): boolean {
       return a > b;// 37
    }
 
-   public boolean greater(int a, int b) {
+   open fun greater(a: int, b: int): boolean {
       return a > b;// 41
    }
 
-   public boolean notGreater(double a, double b) {
+   open fun notGreater(a: double, b: double): boolean {
       return !(a > b);// 45
    }
 
-   public boolean notGreater(int a, int b) {
+   open fun notGreater(a: int, b: int): boolean {
       return a <= b;// 49
    }
 
-   public boolean lessEqual(double a, double b) {
+   open fun lessEqual(a: double, b: double): boolean {
       return a <= b;// 53
    }
 
-   public boolean lessEqual(int a, int b) {
+   open fun lessEqual(a: int, b: int): boolean {
       return a <= b;// 57
    }
 
-   public boolean notLessEqual(double a, double b) {
+   open fun notLessEqual(a: double, b: double): boolean {
       return !(a <= b);// 61
    }
 
-   public boolean notLessEqual(int a, int b) {
+   open fun notLessEqual(a: int, b: int): boolean {
       return a > b;// 65
    }
 
-   public boolean greaterEqual(double a, double b) {
+   open fun greaterEqual(a: double, b: double): boolean {
       return a >= b;// 69
    }
 
-   public boolean greaterEqual(int a, int b) {
+   open fun greaterEqual(a: int, b: int): boolean {
       return a >= b;// 73
    }
 
-   public boolean notGreaterEqual(double a, double b) {
+   open fun notGreaterEqual(a: double, b: double): boolean {
       return !(a >= b);// 77
    }
 
-   public boolean notGreaterEqual(int a, int b) {
+   open fun notGreaterEqual(a: int, b: int): boolean {
       return a < b;// 81
    }
 }

@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestAsserts {
-   public static int foo() {
+open class TestAsserts {
+   open fun foo(): int {
       int i = 1;// 21
 
       assert i > 1;// 22

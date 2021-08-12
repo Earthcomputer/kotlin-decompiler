@@ -1,11 +1,10 @@
-package pkg;
+package pkg
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.File
+import java.util.Scanner
 
-public class TestTryWithResourcesReturnJ16 {
-   public Scanner test(File file) throws FileNotFoundException {
+open class TestTryWithResourcesReturnJ16 {
+   open fun test(file: File): Scanner {
       Scanner var3;
       try (Scanner scanner = new Scanner(file)) {// 9
          var3 = scanner;
@@ -14,7 +13,7 @@ public class TestTryWithResourcesReturnJ16 {
       return var3;// 10
    }
 
-   public Scanner testFunc(File file) throws FileNotFoundException {
+   open fun testFunc(file: File): Scanner {
       Scanner var3;
       try (Scanner scanner = this.create(file)) {// 15
          var3 = scanner;
@@ -23,7 +22,7 @@ public class TestTryWithResourcesReturnJ16 {
       return var3;// 16
    }
 
-   public Scanner testFinally(File file) {
+   open fun testFinally(file: File): Scanner {
       try {
          try (Scanner scanner = new Scanner(file)) {// 21
             ;
@@ -35,59 +34,59 @@ public class TestTryWithResourcesReturnJ16 {
       }
    }
 
-   public Scanner testFinallyNested(File param1) {
+   open fun testFinallyNested(param1: File): Scanner {
       // $FF: Couldn't be decompiled
    }
 
-   private Scanner create(File file) throws FileNotFoundException {
+   private fun create(file: File): Scanner {
       return new Scanner(file);// 41
    }
 }
 
 class 'pkg/TestTryWithResourcesReturnJ16' {
    method 'test (Ljava/io/File;)Ljava/util/Scanner;' {
-      4      9
-      8      9
-      9      10
-      a      10
-      f      13
-      10      13
+      4      8
+      8      8
+      9      9
+      a      9
+      f      12
+      10      12
    }
 
    method 'testFunc (Ljava/io/File;)Ljava/util/Scanner;' {
-      0      18
-      1      18
-      2      18
-      3      18
-      4      18
-      5      18
-      6      19
-      7      19
-      10      22
-      11      22
+      0      17
+      1      17
+      2      17
+      3      17
+      4      17
+      5      17
+      6      18
+      7      18
+      10      21
+      11      21
    }
 
    method 'testFinally (Ljava/io/File;)Ljava/util/Scanner;' {
-      4      27
-      8      27
-      f      31
-      10      31
+      4      26
+      8      26
+      f      30
+      10      30
    }
 
    method 'create (Ljava/io/File;)Ljava/util/Scanner;' {
-      4      42
-      8      42
+      4      41
+      8      41
    }
 }
 
 Lines mapping:
-9 <-> 10
-10 <-> 14
-15 <-> 19
-16 <-> 23
-21 <-> 28
-24 <-> 32
-41 <-> 43
+9 <-> 9
+10 <-> 13
+15 <-> 18
+16 <-> 22
+21 <-> 27
+24 <-> 31
+41 <-> 42
 Not mapped:
 11
 17

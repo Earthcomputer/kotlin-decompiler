@@ -1,15 +1,15 @@
-package pkg;
+package pkg
 
-public class TestReturnTernaryChar {
-   public int testChar(String input) {
+open class TestReturnTernaryChar {
+   open fun testChar(input: String): int {
       return "hello".equals(input) ? 34114 : 35311;// 5
    }
 
-   public int testShortChar(String input) {
+   open fun testShortChar(input: String): int {
       return "hello".equals(input) ? 32744 : 32321;// 9
    }
 
-   public int testByteChar(String input) {
+   open fun testByteChar(input: String): int {
       return "hello".equals(input) ? 34 : 21;// 13
    }
 }

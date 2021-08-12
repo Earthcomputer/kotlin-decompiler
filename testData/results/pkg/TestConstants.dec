@@ -1,74 +1,74 @@
-package pkg;
+package pkg
 
-import java.util.Date;
+import java.util.Date
 
-public class TestConstants {
-   static final boolean T = true;
-   static final boolean F = false;
-   static final char C0 = '\n';
-   static final char C1 = 'a';
-   static final char C2 = 'Ȁ';
-   static final byte BMin = -128;
-   static final byte BMax = 127;
-   static final short SMin = -32768;
-   static final short SMax = 32767;
-   static final int IMin = -2147483648;
-   static final int IMax = 2147483647;
-   static final long LMin = -9223372036854775808L;
-   static final long LMax = 9223372036854775807L;
-   static final float FNan = 0.0F / 0.0F;
-   static final float FNeg = -1.0F / 0.0F;
-   static final float FPos = 1.0F / 0.0F;
-   static final float FMin = 1.4E-45F;
-   static final float FMax = 3.4028235E38F;
-   static final double DNan = 0.0 / 0.0;
-   static final double DNeg = -1.0 / 0.0;
-   static final double DPos = 1.0 / 0.0;
-   static final double DMin = 4.9E-324;
-   static final double DMax = 1.7976931348623157E308;
+open class TestConstants {
+   val T: boolean = true
+   val F: boolean = false
+   val C0: char = '\n'
+   val C1: char = 'a'
+   val C2: char = 'Ȁ'
+   val BMin: byte = -128
+   val BMax: byte = 127
+   val SMin: short = -32768
+   val SMax: short = 32767
+   val IMin: int = -2147483648
+   val IMax: int = 2147483647
+   val LMin: long = -9223372036854775808L
+   val LMax: long = 9223372036854775807L
+   val FNan: float = 0.0F / 0.0F
+   val FNeg: float = -1.0F / 0.0F
+   val FPos: float = 1.0F / 0.0F
+   val FMin: float = 1.4E-45F
+   val FMax: float = 3.4028235E38F
+   val DNan: double = 0.0 / 0.0
+   val DNeg: double = -1.0 / 0.0
+   val DPos: double = 1.0 / 0.0
+   val DMin: double = 4.9E-324
+   val DMax: double = 1.7976931348623157E308
 
    @TestConstants.A(byte.class)
-   void m1() {
+   open fun m1() {
    }// 54
 
    @TestConstants.A(char.class)
-   void m2() {
+   open fun m2() {
    }// 55
 
    @TestConstants.A(double.class)
-   void m3() {
+   open fun m3() {
    }// 56
 
    @TestConstants.A(float.class)
-   void m4() {
+   open fun m4() {
    }// 57
 
    @TestConstants.A(int.class)
-   void m5() {
+   open fun m5() {
    }// 58
 
    @TestConstants.A(long.class)
-   void m6() {
+   open fun m6() {
    }// 59
 
    @TestConstants.A(short.class)
-   void m7() {
+   open fun m7() {
    }// 60
 
    @TestConstants.A(boolean.class)
-   void m8() {
+   open fun m8() {
    }// 61
 
    @TestConstants.A(void.class)
-   void m9() {
+   open fun m9() {
    }// 62
 
    @TestConstants.A(Date.class)
-   void m10() {
+   open fun m10() {
    }// 63
 
-   @interface A {
-      Class<?> value();
+   abstract inner annotation class A {
+      abstract fun value(): Class<?>
    }
 }
 

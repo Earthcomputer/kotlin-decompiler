@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestClassSwitch {
-   public void testCaseOrder(int a) {
+open class TestClassSwitch {
+   open fun testCaseOrder(a: int) {
       switch(a) {// 22
       case 5:
          System.out.println(5);// 27

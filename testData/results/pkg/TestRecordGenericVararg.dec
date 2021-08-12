@@ -1,8 +1,8 @@
-package pkg;
+package pkg
 
-public record TestRecordGenericVararg<T>(T first, T... other) {
+data class TestRecordGenericVararg<T>(T first, T... other) {
    @SafeVarargs
-   public TestRecordGenericVararg(T first, T... other) {
+   open constructor(first: T, vararg other: T) {
       this.first = first;// 5
       this.other = other;
    }

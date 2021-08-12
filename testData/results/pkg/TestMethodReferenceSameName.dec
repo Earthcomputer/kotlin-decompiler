@@ -1,14 +1,14 @@
-package pkg;
+package pkg
 
-public class TestMethodReferenceSameName {
-   TestMethodReferenceSameName.R1 r;
+open class TestMethodReferenceSameName {
+   var r: TestMethodReferenceSameName.R1 = null
 
-   private void foo() {
+   private fun foo() {
       (this.r::foo).run();// 22
    }// 23
 
-   class R1 {
-      void foo() {
+   open class R1 {
+      open fun foo() {
       }// 26
    }
 }

@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestLVTScoping {
-   public static void method() {
+open class TestLVTScoping {
+   open fun method() {
       String a;
       if (1 == Integer.valueOf(1)) {
          a = "YAY";
@@ -12,7 +12,7 @@ public class TestLVTScoping {
       System.out.println(a);
    }
 
-   public static void method2() {
+   open fun method2() {
       if (1 == Integer.valueOf(1)) {
          String a = "YAY";
       } else {
@@ -22,7 +22,7 @@ public class TestLVTScoping {
 
    }
 
-   public static void method3() {
+   open fun method3() {
       if (1 == Integer.valueOf(1)) {
          boolean a = true;
          System.out.println(a);

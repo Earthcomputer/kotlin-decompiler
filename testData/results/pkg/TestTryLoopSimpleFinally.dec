@@ -1,13 +1,13 @@
-package pkg;
+package pkg
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.File
+import java.io.FileNotFoundException
+import java.util.Scanner
 
-public class TestTryLoopSimpleFinally {
-   private boolean field;
+open class TestTryLoopSimpleFinally {
+   private var field: boolean = null
 
-   public void test(File file) {
+   open fun test(file: File) {
       try {
          while(this.field) {// 12
             new Scanner(file);// 13

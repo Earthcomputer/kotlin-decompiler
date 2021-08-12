@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestLoopBreak2 {
-   public boolean test(int i) {
+open class TestLoopBreak2 {
+   open fun test(i: int): boolean {
       while(i > 10) {// 5
          ++i;// 6
          if (i != 15) {// 8

@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestArrayCopy {
-   public void test(int[] a) {
+open class TestArrayCopy {
+   open fun test(a: int[]) {
       int len = a.length;// 6
       int[] c = new int[len];// 7
       int i = 0;// 8

@@ -1,42 +1,42 @@
-package pkg;
+package pkg
 
-public class TestMethodParameters {
-   TestMethodParameters(@Deprecated int p01) {
+open class TestMethodParameters {
+   open constructor(@Deprecated p01: int) {
    }// 19
 
-   void m1(@Deprecated int p02) {
+   open fun m1(@Deprecated p02: int) {
    }// 20
 
-   static void m2(@Deprecated int p03) {
+   open fun m2(@Deprecated p03: int) {
    }// 21
 
-   void local() {
-      class Local {
-         Local(@Deprecated int p31) {
+   open fun local() {
+      open class Local {
+         open constructor(@Deprecated p31: int) {
          }// 36
 
-         void m(@Deprecated int p32) {
+         open fun m(@Deprecated p32: int) {
          }// 37
       }
 
    }// 39
 
-   class C1 {
-      C1(@Deprecated int p11) {
+   open class C1 {
+      open constructor(@Deprecated p11: int) {
       }// 24
 
-      void m(@Deprecated int p12) {
+      open fun m(@Deprecated p12: int) {
       }// 25
    }
 
-   static class C2 {
-      C2(@Deprecated int p21) {
+   inner open class C2 {
+      open constructor(@Deprecated p21: int) {
       }// 29
 
-      void m1(@Deprecated int p22) {
+      open fun m1(@Deprecated p22: int) {
       }// 30
 
-      static void m2(@Deprecated int p23) {
+      open fun m2(@Deprecated p23: int) {
       }// 31
    }
 }

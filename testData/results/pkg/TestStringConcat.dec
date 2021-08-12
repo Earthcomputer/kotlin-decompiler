@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-public class TestStringConcat {
-   public String test1(String prefix, int a) {
+open class TestStringConcat {
+   open fun test1(prefix: String, a: int): String {
       return prefix + a;// 20
    }
 
-   public String test2(String var, int b, Object c) {
+   open fun test2(var: String, b: int, c: Object): String {
       return "(" + var + "-" + b + "---" + c + ")";// 24
    }
 }

@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-public class TestMultiCast {
-   public void test(double arg1, double arg2) {
+open class TestMultiCast {
+   open fun test(arg1: double, arg2: double) {
       useNumbers((double)((int)arg1), (double)((int)arg2));// 5
    }// 6
 
-   private static void useNumbers(double arg1, double arg2) {
+   private fun useNumbers(arg1: double, arg2: double) {
    }// 10
 }
 

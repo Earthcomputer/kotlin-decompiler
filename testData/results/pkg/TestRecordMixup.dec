@@ -1,16 +1,16 @@
-package pkg;
+package pkg
 
-public record TestRecordMixup(int x, int y) {
-   public TestRecordMixup(int x, int y) {
+data class TestRecordMixup(int x, int y) {
+   open constructor(x: int, y: int) {
       this.x = y;// 5
       this.y = x;// 6
    }// 7
 
-   public int x() {
+   open fun x(): int {
       return this.y;// 11
    }
 
-   public int y() {
+   open fun y(): int {
       return this.x;// 16
    }
 }

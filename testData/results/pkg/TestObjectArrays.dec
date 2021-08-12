@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-import java.util.Random;
+import java.util.Random
 
-public class TestObjectArrays {
-   public void test() {
+open class TestObjectArrays {
+   open fun test() {
       Object[][] things = new Object[3][];// 7
 
       for(Object[] thing : things) {// 9
@@ -14,18 +14,17 @@ public class TestObjectArrays {
 
       things[0] = new Object[]{1, new int[]{1, 2, 3}, "hi"};// 15
       things[1] = new Object[]{new Object() {// 16
-         int x = 3;
-         int hashcode;
+         var x: int = 3
+         var hashcode: int = null
 
-         {
+         open {
             this.x *= 3 * this.x;// 20
             System.out.println("Hi!");// 21
             this.x += 224;// 25
             this.hashcode = (new Random()).nextInt() + this.x;// 28
          }
 
-         @Override
-         public int hashCode() {
+         override open fun hashCode(): int {
             return this.hashcode;// 32
          }
       }};
@@ -75,11 +74,11 @@ class 'pkg/TestObjectArrays$1' {
    }
 
    method 'hashCode ()I' {
-      0      28
-      1      28
-      2      28
-      3      28
-      4      28
+      0      27
+      1      27
+      2      27
+      3      27
+      4      27
    }
 }
 
@@ -133,7 +132,7 @@ class 'pkg/TestObjectArrays' {
       6c      15
       6d      15
       7d      15
-      7e      31
+      7e      30
    }
 }
 
@@ -148,8 +147,8 @@ Lines mapping:
 21 <-> 22
 25 <-> 23
 28 <-> 24
-32 <-> 29
-36 <-> 32
+32 <-> 28
+36 <-> 31
 Not mapped:
 17
 18

@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-import java.util.ArrayList;
+import java.util.ArrayList
 
-public class TestEnhancedForLoops {
-   public void forArray() {
+open class TestEnhancedForLoops {
+   open fun forArray() {
       int[] numbers = new int[]{1, 2, 3, 4, 5, 6};// 23
 
       for(int number : numbers) {// 24
@@ -12,14 +12,14 @@ public class TestEnhancedForLoops {
 
    }// 27
 
-   public void forItterator() {
+   open fun forItterator() {
       for(String string : new ArrayList()) {// 31
          System.out.println(string);// 32
       }
 
    }// 34
 
-   public void forItteratorUnboxing() {
+   open fun forItteratorUnboxing() {
       for(int i : new ArrayList()) {// 38
          System.out.println("Value: " + i);// 39
       }

@@ -1,17 +1,17 @@
-package pkg;
+package pkg
 
-import groovy.transform.Trait;
-import org.codehaus.groovy.transform.trait.Traits.Implemented;
+import groovy.transform.Trait
+import org.codehaus.groovy.transform.trait.Traits.Implemented
 
 @Trait
-public interface TestGroovyTrait {
+abstract interface TestGroovyTrait {
    @Implemented
-   Object myMethod();
+   abstract fun myMethod(): Object
 
    @Implemented
-   Object getMyField();
+   abstract fun getMyField(): Object
 
    @Implemented
-   void setMyField(Object var1);
+   abstract fun setMyField(var1: Object)
 }
 

@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestBooleanAssignment {
-   public boolean test(boolean a, boolean b, boolean c) {
+open class TestBooleanAssignment {
+   open fun test(a: boolean, b: boolean, c: boolean): boolean {
       if (a) {// 5
          System.out.println(b);// 6
       }

@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestNotFloatPrecision {
-   public void test() {
+open class TestNotFloatPrecision {
+   open fun test() {
       double x = 0.9999999814507745;// 5
    }// 6
 }

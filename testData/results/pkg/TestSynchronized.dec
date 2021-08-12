@@ -1,19 +1,19 @@
-package pkg;
+package pkg
 
-public class TestSynchronized {
-   public void test1() {
+open class TestSynchronized {
+   open fun test1() {
       synchronized(this) {// 5
          ;
       }
    }// 8
 
-   public void test2() {
+   open fun test2() {
       synchronized(new Object()) {// 11
          ;
       }
    }// 14
 
-   public void test3() {
+   open fun test3() {
       Object o;
       synchronized(new Object()) {// 18
          o = new Object();// 19
@@ -23,7 +23,7 @@ public class TestSynchronized {
       System.out.println(o);// 22
    }// 23
 
-   public void test4() {
+   open fun test4() {
       Integer o;
       synchronized(1) {// 27
          o = 1;// 28

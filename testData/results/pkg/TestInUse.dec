@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-public class TestInUse {
-   public int getInt() {
+open class TestInUse {
+   open fun getInt(): int {
       return 42;// 5
    }
 
-   protected int reuse() {
+   protected open fun reuse(): int {
       int i = 0;// 9
       int d = 0;
       int result = 0;// 10

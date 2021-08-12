@@ -56,7 +56,7 @@ public class StructAnnotationAttribute extends StructGeneralAttribute {
       values = Collections.emptyList();
     }
 
-    return new AnnotationExprent(new VarType(className).value, names, values);
+    return new AnnotationExprent(new VarType(className).value, false, names, values);
   }
 
   public static Exprent parseAnnotationElement(DataInputStream data, ConstantPool pool) throws IOException {

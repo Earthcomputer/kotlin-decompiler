@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.Iterator
+import java.util.List
+import java.util.Set
 
-public class TestWhileIterator {
-   public int testNested(List<Object> list, Set<Object> set) {
+open class TestWhileIterator {
+   open fun testNested(list: List<Object>, set: Set<Object>): int {
       Iterator<Object> it1 = list.iterator();// 9
       Iterator<Object> it2 = set.iterator();// 10
       int i = 0;// 11

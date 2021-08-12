@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-import java.util.Random;
+import java.util.Random
 
-public class TestAssignmentInLoop {
-   private static final Random RANDOM = new Random();
+open class TestAssignmentInLoop {
+   private val RANDOM: Random = new Random()
 
-   void test() {
+   open fun test() {
       int i = 10;// 9
 
       while((i -= get()) > 0) {// 11
@@ -27,7 +27,7 @@ public class TestAssignmentInLoop {
 
    }// 26
 
-   private static int get() {
+   private fun get(): int {
       return RANDOM.nextInt(3);// 29
    }
 }

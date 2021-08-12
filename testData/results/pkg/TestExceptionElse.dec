@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-import java.util.Deque;
+import java.util.Deque
 
-public class TestExceptionElse {
-   public void test(Deque<Number> numbers) {
+open class TestExceptionElse {
+   open fun test(numbers: Deque<Number>) {
       System.out.println("Test");// 7
 
       while(!numbers.isEmpty()) {// 9

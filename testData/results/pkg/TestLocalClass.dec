@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-public abstract class TestLocalClass {
-   void foo() {
+abstract class TestLocalClass {
+   open fun foo() {
       int a = 5;// 8
 
-      class Local {
-         void foo() {
+      open class Local {
+         open fun foo() {
             int b = 5;// 11
             int v = 5;// 12
          }// 13
@@ -15,11 +15,11 @@ public abstract class TestLocalClass {
       l.foo();// 16
    }// 17
 
-   void boo() {
+   open fun boo() {
       int a = 5;// 20
    }// 21
 
-   void zoo() {
+   open fun zoo() {
       int a = 5;// 24
    }// 25
 }

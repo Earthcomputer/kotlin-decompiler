@@ -1,26 +1,26 @@
-package a.a.a.a.e.f;
+package a.a.a.a.e.f
 
-import a.a.a.a.a.k;
-import a.a.a.a.c.c;
-import a.a.a.a.c.j;
-import a.a.a.a.e.bg;
-import java.io.File;
+import a.a.a.a.a.k
+import a.a.a.a.c.c
+import a.a.a.a.c.j
+import a.a.a.a.e.bg
+import java.io.File
 
-class i implements bg {
-   private final j a;
-   private final b b;
+open class i  : bg {
+   private val a: j = null
+   private val b: b = null
 
-   i(b var1, j var2) {
+   open constructor(var1: b, var2: j) {
       this.b = var1;// 1
       this.a = var2;
    }
 
-   public void a(c var1, k var2, boolean var3) {
+   open fun a(var1: c, var2: k, var3: boolean) {
       File var4 = this.a.b().a(var1);// 2
       a.a.a.a.e.f.b.a(this.b).add(var4);// 3
    }// 4
 
-   public void a(a.a.a.a.c.b var1) {
+   open fun a(var1: a.a.a.a.c.b) {
    }// 0
 }
 

@@ -1,4 +1,4 @@
 @PkgAnno("...")
 package pkg;
 
-import ext.PkgAnno;
+import ext.PkgAnno

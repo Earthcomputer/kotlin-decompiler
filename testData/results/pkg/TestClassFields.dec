@@ -1,12 +1,12 @@
-package pkg;
+package pkg
 
-public class TestClassFields {
-   private static int[] sizes = new int[TestClassFields.names.length];
-   private static String[] names = new String[]{"name1", "name2"};
-   private static final int SIZE = TestClassFields.Inner.staticMutable;
+open class TestClassFields {
+   private var sizes: int[] = new int[TestClassFields.names.length]
+   private var names: String[] = new String[]{"name1", "name2"}
+   private val SIZE: int = TestClassFields.Inner.staticMutable
 
-   private static class Inner {
-      private static int staticMutable = 3;
+   private inner class Inner {
+      private var staticMutable: int = 3
    }
 }
 

@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-public abstract class TestGenericNull<T> {
-   public abstract T get();
+abstract class TestGenericNull<T> {
+   abstract fun get(): T
 
-   public class Int extends TestGenericNull<Integer> {
-      public Integer get() {
+   open class Int  : TestGenericNull<Integer>() {
+      open fun get(): Integer {
          return null;// 10
       }
    }

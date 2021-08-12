@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestForContinue {
-   public void test(int j) {
+open class TestForContinue {
+   open fun test(j: int) {
       for(int i = 0; i < j; ++i) {// 5
          if (i != 4) {// 6
             System.out.println(i);// 10

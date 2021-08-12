@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestArrayAssignmentEquals {
-   public int test() {
+open class TestArrayAssignmentEquals {
+   open fun test(): int {
       int[] a = new int[]{4};// 5
       a[0] *= 2;// 6
       a[0] *= 2;// 7

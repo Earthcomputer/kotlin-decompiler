@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-public class TestAnonymousObject {
-   public void test() {
+open class TestAnonymousObject {
+   open fun test() {
       Object var10000 = new Object() {
-         {
+         open {
             System.out.println("Hi");// 7
          }// 8
       };

@@ -1,11 +1,10 @@
-package pkg;
+package pkg
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.File
+import java.util.Scanner
 
-public class TestTryWithResourcesFinallyJ16 {
-   public void test(File file) throws FileNotFoundException {
+open class TestTryWithResourcesFinallyJ16 {
+   open fun test(file: File) {
       try (Scanner scanner = new Scanner(file)) {// 9
          scanner.next();// 10
       } finally {
@@ -14,7 +13,7 @@ public class TestTryWithResourcesFinallyJ16 {
 
    }// 13
 
-   public void testFunc(File file) throws FileNotFoundException {
+   open fun testFunc(file: File) {
       try (Scanner scanner = this.create(file)) {// 17
          scanner.next();// 18
       } finally {
@@ -23,66 +22,66 @@ public class TestTryWithResourcesFinallyJ16 {
 
    }// 21
 
-   private Scanner create(File file) throws FileNotFoundException {
+   private fun create(file: File): Scanner {
       return new Scanner(file);// 25
    }
 }
 
 class 'pkg/TestTryWithResourcesFinallyJ16' {
    method 'test (Ljava/io/File;)V' {
-      4      8
-      8      8
-      9      9
-      a      9
-      b      9
-      c      9
-      2f      14
-      32      11
-      33      11
-      34      11
-      35      11
-      36      11
-      37      11
-      38      11
+      4      7
+      8      7
+      9      8
+      a      8
+      b      8
+      c      8
+      2f      13
+      32      10
+      33      10
+      34      10
+      35      10
+      36      10
+      37      10
+      38      10
    }
 
    method 'testFunc (Ljava/io/File;)V' {
-      0      17
-      1      17
-      2      17
-      3      17
-      4      17
-      5      17
-      6      18
-      7      18
-      8      18
-      9      18
-      34      23
-      37      20
-      38      20
-      39      20
-      3a      20
-      3b      20
-      3c      20
-      3d      20
+      0      16
+      1      16
+      2      16
+      3      16
+      4      16
+      5      16
+      6      17
+      7      17
+      8      17
+      9      17
+      34      22
+      37      19
+      38      19
+      39      19
+      3a      19
+      3b      19
+      3c      19
+      3d      19
    }
 
    method 'create (Ljava/io/File;)Ljava/util/Scanner;' {
-      4      26
-      8      26
+      4      25
+      8      25
    }
 }
 
 Lines mapping:
-9 <-> 9
-10 <-> 10
-12 <-> 12
-13 <-> 15
-17 <-> 18
-18 <-> 19
-20 <-> 21
-21 <-> 24
-25 <-> 27
+9 <-> 8
+10 <-> 9
+12 <-> 11
+13 <-> 14
+17 <-> 17
+18 <-> 18
+20 <-> 20
+21 <-> 23
+25 <-> 26
 Not mapped:
 11
 14

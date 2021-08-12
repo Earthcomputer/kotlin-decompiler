@@ -1,23 +1,23 @@
-package pkg;
+package pkg
 
 @SharedName4
-public class TestClashName extends ext.TestClashNameParent implements TestClashNameIface {
-   int TestClashNameParent = 0;
-   int TestClashNameIface = 0;
-   int SharedName1 = 0;
-   int SharedName4 = 0;
-   int SharedName5 = 0;
-   int i = pkg.SharedName1.f;
-   int j = NonSharedName.f;
-   int k = SharedName2.f;
-   int l = pkg.SharedName3.f;
-   int m = pkg.SharedName1.getF();
-   int n = NonSharedName.getF();
-   SharedName1 p = null;
-   SharedName5<SharedName1> q = null;
+open class TestClashName  : ext.TestClashNameParent() , TestClashNameIface {
+   var TestClashNameParent: int = 0
+   var TestClashNameIface: int = 0
+   var SharedName1: int = 0
+   var SharedName4: int = 0
+   var SharedName5: int = 0
+   var i: int = pkg.SharedName1.f
+   var j: int = NonSharedName.f
+   var k: int = SharedName2.f
+   var l: int = pkg.SharedName3.f
+   var m: int = pkg.SharedName1.getF()
+   var n: int = NonSharedName.getF()
+   var p: SharedName1 = null
+   var q: SharedName5<SharedName1> = null
 
    @SharedName4
-   public int m() {
+   open fun m(): int {
       int SharedName2 = this.i;// 73
       pkg.SharedName1.f = this.j;// 74
       int x = SharedName2.f;// 75
@@ -26,8 +26,7 @@ public class TestClashName extends ext.TestClashNameParent implements TestClashN
       return SharedName2 + x + y;// 78
    }
 
-   @Override
-   public void f() {
+   override open fun f() {
    }// 82
 }
 
@@ -69,7 +68,7 @@ class 'pkg/TestClashName' {
    }
 
    method 'f ()V' {
-      0      30
+      0      29
    }
 }
 
@@ -80,4 +79,4 @@ Lines mapping:
 76 <-> 24
 77 <-> 25
 78 <-> 26
-82 <-> 31
+82 <-> 30

@@ -1,25 +1,25 @@
-package pkg;
+package pkg
 
-public class TestInlineAssignments {
-   private TestInlineAssignments(int i) {
+open class TestInlineAssignments {
+   private constructor(i: int) {
    }// 6
 
-   public void testCall(int a) {
+   open fun testCall(a: int) {
       this.accept(a);// 10
       System.out.println(a == a);// 11
    }// 12
 
-   public void testConstructor(int a) {
+   open fun testConstructor(a: int) {
       new TestInlineAssignments(a);// 16
       System.out.println(a == a);// 17
    }// 18
 
-   public void testArray(int a) {
+   open fun testArray(a: int) {
       int[] array = new int[a];// 22
       System.out.println(a == a);// 23
    }// 24
 
-   public void accept(int i) {
+   open fun accept(i: int) {
    }// 28
 }
 

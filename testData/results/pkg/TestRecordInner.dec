@@ -1,12 +1,12 @@
-package pkg;
+package pkg
 
-public class TestRecordInner {
-   public TestRecordInner.Rec create(int x) {
+open class TestRecordInner {
+   open fun create(x: int): TestRecordInner.Rec {
       return new TestRecordInner.Rec(x);// 7
    }
 
-   private static record Rec(int x) {
-      private Rec(int x) {
+   private inner data class Rec(int x) {
+      private constructor(x: int) {
          this.x = x;// 4
       }
    }

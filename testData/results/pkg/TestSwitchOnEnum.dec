@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeUnit
 
-public class TestSwitchOnEnum {
-   int myInt;
+open class TestSwitchOnEnum {
+   var myInt: int = null
 
-   public int testSOE(TimeUnit t) {
+   open fun testSOE(t: TimeUnit): int {
       switch(t) {// 14
       case MICROSECONDS:
          return 2;// 16
@@ -16,8 +16,8 @@ public class TestSwitchOnEnum {
       }
    }
 
-   static class Example {
-      void test(TestSwitchOnEnum.Example.A a, TestSwitchOnEnum.Example.B b) {
+   inner open class Example {
+      open fun test(a: TestSwitchOnEnum.Example.A, b: TestSwitchOnEnum.Example.B) {
          switch(a) {// 30
          case A1:
             System.out.println("A1");// 32
@@ -36,14 +36,14 @@ public class TestSwitchOnEnum {
 
       }// 46
 
-      static enum A {
-         A1,
-         A2;
+      inner enum A {
+         val A1,
+         val A2;
       }
 
-      static enum B {
-         B1,
-         B2;
+      inner enum B {
+         val B1,
+         val B2;
       }
    }
 }

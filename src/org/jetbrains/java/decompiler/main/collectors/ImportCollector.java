@@ -14,7 +14,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ImportCollector {
-  private static final String JAVA_LANG_PACKAGE = "java.lang";
+  private static final Set<String> AUTO_IMPORTED_PACKAGES = new HashSet<>();
+  static {
+    AUTO_IMPORTED_PACKAGES.add("kotlin");
+    AUTO_IMPORTED_PACKAGES.add("kotlin.annotation");
+    AUTO_IMPORTED_PACKAGES.add("kotlin.collections");
+    AUTO_IMPORTED_PACKAGES.add("kotlin.comparisons");
+    AUTO_IMPORTED_PACKAGES.add("kotlin.io");
+    AUTO_IMPORTED_PACKAGES.add("kotlin.ranges");
+    AUTO_IMPORTED_PACKAGES.add("kotlin.sequences");
+    AUTO_IMPORTED_PACKAGES.add("kotlin.text");
+    AUTO_IMPORTED_PACKAGES.add("java.lang");
+    AUTO_IMPORTED_PACKAGES.add("kotlin.jvm");
+  }
 
   private final Map<String, String> mapSimpleNames = new HashMap<>();
   private final Set<String> setNotImportedNames = new HashSet<>();
@@ -168,7 +180,7 @@ public class ImportCollector {
   public void writeImports(TextBuffer buffer, boolean addSeparator) {
     List<String> imports = packImports();
     for (String line : imports) {
-      buffer.append("import ").append(line).append(';').appendLineSeparator();
+      buffer.append("import ").append(line).appendLineSeparator();
     }
     if (addSeparator && !imports.isEmpty()) {
       buffer.appendLineSeparator();
@@ -182,7 +194,7 @@ public class ImportCollector {
                 // empty, java.lang and the current packages
                 !setNotImportedNames.contains(ent.getKey()) &&
                 !ent.getValue().isEmpty() &&
-                !JAVA_LANG_PACKAGE.equals(ent.getValue()) &&
+                !AUTO_IMPORTED_PACKAGES.contains(ent.getValue()) &&
                 !ent.getValue().equals(currentPackagePoint)
       )
       .sorted(Map.Entry.<String, String>comparingByValue().thenComparing(Map.Entry.comparingByKey()))

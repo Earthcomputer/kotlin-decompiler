@@ -1,13 +1,13 @@
-package pkg;
+package pkg
 
-public class TestClassLoop {
-   public static void testSimpleInfinite() {
+open class TestClassLoop {
+   open fun testSimpleInfinite() {
       while(true) {
          System.out.println();// 23
       }
    }
 
-   public static void testFinally() {
+   open fun testFinally() {
       boolean a = Math.random() > 0.0;// 29
 
       while(true) {
@@ -21,7 +21,7 @@ public class TestClassLoop {
       }
    }
 
-   public static void testFinallyContinue() {
+   open fun testFinallyContinue() {
       boolean a = Math.random() > 0.0;// 45
 
       while(true) {
@@ -41,7 +41,7 @@ public class TestClassLoop {
       }
    }
 
-   public static int testWhileCombined(String in) {
+   open fun testWhileCombined(in: String): int {
       int len = in.length();// 63
       int i = 0;// 64
       boolean decSeen = false;// 65

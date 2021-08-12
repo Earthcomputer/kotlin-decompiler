@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-public class TestConstType {
-   private char lineBreak = '\n';
-   private char zero = 0;
+open class TestConstType {
+   private var lineBreak: char = '\n'
+   private var zero: char = 0
 
-   public void setLineBreak(char os) {
+   open fun setLineBreak(os: char) {
       switch(os) {// 8
       case 'u':
          this.lineBreak = '\r';// 10
@@ -15,11 +15,11 @@ public class TestConstType {
 
    }// 17
 
-   public void init() {
+   open fun init() {
       this.setLineBreak('w');// 20
    }// 21
 
-   public String convertIndentation(String text) {
+   open fun convertIndentation(text: String): String {
       if (text.charAt(0) == '\t') {// 24
          text = text.replace('\t', ' ');// 25
       }
@@ -27,7 +27,7 @@ public class TestConstType {
       return text;// 27
    }
 
-   public void printalot() {
+   open fun printalot() {
       System.out.println('a');// 31
       System.out.println('\t');// 32
       System.out.println(0);// 34
@@ -58,7 +58,7 @@ public class TestConstType {
       System.out.println(45000);// 59
    }// 60
 
-   public char guessType(int val) {
+   open fun guessType(val: int): char {
       if (0 <= val && val <= 127) {// 63
          return 'X';// 64
       } else if (-128 <= val && val <= 127) {// 66
@@ -72,7 +72,7 @@ public class TestConstType {
       }
    }
 
-   public int getTypeMaxValue(char type) {
+   open fun getTypeMaxValue(type: char): int {
       int maxValue;
       switch(type) {// 85
       case 'B':

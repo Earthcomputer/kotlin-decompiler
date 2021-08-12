@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-import java.util.List;
-import java.util.Random;
+import java.util.List
+import java.util.Random
 
-public class TestIfLoop {
-   public int testCompoundCondition(int i, int j) {
+open class TestIfLoop {
+   open fun testCompoundCondition(i: int, j: int): int {
       while(i > 0 && j < 3) {// 8
          if (j < 0) {// 9
             --j;// 10
@@ -21,7 +21,7 @@ public class TestIfLoop {
       return 3;// 25
    }
 
-   public Object testCollection(List<Object> list) {
+   open fun testCollection(list: List<Object>): Object {
       while(!list.isEmpty()) {// 29
          if (list.size() <= 3) {// 30
             return list.remove(0);// 33
@@ -33,7 +33,7 @@ public class TestIfLoop {
       return null;// 37
    }
 
-   public void testCompound2(int a, int b, Random random) {
+   open fun testCompound2(a: int, b: int, random: Random) {
       a = random.nextInt(8) - random.nextInt(8) + a;// 41
 
       for(int var5 = random.nextInt(8) - random.nextInt(8) + b; a >= 0 && a <= 20 && var5 >= 0 && var5 <= 20; var5 -= random.nextInt(4) - random.nextInt(4)) {// 42 44 46
@@ -42,7 +42,7 @@ public class TestIfLoop {
 
    }// 48
 
-   public int testElseIf(int i) {
+   open fun testElseIf(i: int): int {
       while(i > 0) {// 51
          if (i == 10) {// 52
             ++i;// 53

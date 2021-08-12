@@ -18,12 +18,14 @@ public class AnnotationExprent extends Exprent {
   public static final int ANNOTATION_SINGLE_ELEMENT = 3;
 
   private final String className;
+  private final boolean isFileAnnotation;
   private final List<String> parNames;
   private final List<? extends Exprent> parValues;
 
-  public AnnotationExprent(String className, List<String> parNames, List<? extends Exprent> parValues) {
+  public AnnotationExprent(String className, boolean isFileAnnotation, List<String> parNames, List<? extends Exprent> parValues) {
     super(EXPRENT_ANNOTATION);
     this.className = className;
+    this.isFileAnnotation = isFileAnnotation;
     this.parNames = parNames;
     this.parValues = parValues;
   }
@@ -34,6 +36,9 @@ public class AnnotationExprent extends Exprent {
 
     buffer.appendIndent(indent);
     buffer.append('@');
+    if (isFileAnnotation) {
+      buffer.append("file:");
+    }
     buffer.append(DecompilerContext.getImportCollector().getShortName(ExprProcessor.buildJavaClassName(className)));
 
     int type = getAnnotationType();
@@ -72,6 +77,14 @@ public class AnnotationExprent extends Exprent {
 
   public String getClassName() {
     return className;
+  }
+
+  public List<String> getParNames() {
+    return parNames;
+  }
+
+  public List<? extends Exprent> getParValues() {
+    return parValues;
   }
 
   public int getAnnotationType() {

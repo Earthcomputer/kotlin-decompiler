@@ -1,15 +1,15 @@
-package pkg;
+package pkg
 
-public abstract class TestAbstractMethods {
-   public abstract void foo();
+abstract class TestAbstractMethods {
+   abstract fun foo()
 
-   public int test(int a) {
+   open fun test(a: int): int {
       return a;// 11
    }
 
-   protected abstract void foo1();
+   protected abstract fun foo1()
 
-   public void test2(String a) {
+   open fun test2(a: String) {
       System.out.println(a);// 17
    }// 18
 }

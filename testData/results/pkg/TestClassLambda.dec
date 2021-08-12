@@ -1,17 +1,17 @@
-package pkg;
+package pkg
 
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.OptionalInt;
-import java.util.function.IntBinaryOperator;
-import java.util.function.Supplier;
+import java.lang.annotation.Annotation
+import java.util.ArrayList
+import java.util.Arrays
+import java.util.List
+import java.util.OptionalInt
+import java.util.function.IntBinaryOperator
+import java.util.function.Supplier
 
-public class TestClassLambda {
-   public int field = 0;
+open class TestClassLambda {
+   var field: int = 0
 
-   public void testLambda() {
+   open fun testLambda() {
       List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7);// 29
       int b = (int)Math.random();// 30
       list.forEach(n -> {// 32
@@ -20,7 +20,7 @@ public class TestClassLambda {
       });// 35
    }// 36
 
-   public void testLambda1() {
+   open fun testLambda1() {
       int a = (int)Math.random();// 39
       Runnable r1 = () -> {// 40
          System.out.println("hello1" + a);
@@ -30,26 +30,26 @@ public class TestClassLambda {
       };
    }// 42
 
-   public void testLambda2() {
+   open fun testLambda2() {
       reduce((left, right) -> {// 45
          return Math.max(left, right);
       });
    }// 46
 
-   public void testLambda3() {
+   open fun testLambda3() {
       reduce(Math::max);// 49
    }// 50
 
-   public void testLambda4() {
+   open fun testLambda4() {
       reduce(TestClassLambda::localMax);// 53
    }// 54
 
-   public void testLambda5() {
+   open fun testLambda5() {
       String x = "abcd";// 57
       function(x::toString);// 58
    }// 59
 
-   public void testLambda6() {
+   open fun testLambda6() {
       List<String> list = new ArrayList();// 62
       int bottom = list.size() * 2;// 63
       int top = list.size() * 5;// 64
@@ -58,23 +58,23 @@ public class TestClassLambda {
       });
    }// 66
 
-   public static void testLambda7(Annotation[] annotations) {
+   open fun testLambda7(annotations: Annotation[]) {
       Arrays.stream(annotations).map(Annotation::annotationType);// 69
    }// 70
 
-   public static OptionalInt reduce(IntBinaryOperator op) {
+   open fun reduce(op: IntBinaryOperator): OptionalInt {
       return null;// 73
    }
 
-   public static String function(Supplier<String> supplier) {
+   open fun function(supplier: Supplier<String>): String {
       return (String)supplier.get();// 77
    }
 
-   public static int localMax(int first, int second) {
+   open fun localMax(first: int, second: int): int {
       return 0;// 81
    }
 
-   public void nestedLambdas() {
+   open fun nestedLambdas() {
       int a = 5;// 85
       Runnable r1 = () -> {// 86
          Runnable r2 = () -> {// 87

@@ -1,6 +1,6 @@
-package pkg;
+package pkg
 
-public @interface MoreAnnotations {
+abstract annotation class MoreAnnotations {
    @MoreAnnotations(
       intValue = 1,
       byteValue = 1,
@@ -15,7 +15,7 @@ public @interface MoreAnnotations {
       stringValue = "",
       classValue = String.class
    )
-   String annotatedWithValues = "";
+   val annotatedWithValues: String = ""
    @MoreAnnotations(
       intArray = {},
       byteArray = {},
@@ -30,7 +30,7 @@ public @interface MoreAnnotations {
       stringArray = {},
       classArray = {}
    )
-   String annotatedWithEmptyArrays = "";
+   val annotatedWithEmptyArrays: String = ""
    @MoreAnnotations(
       intArray = {1, 0, 2147483647, -2147483648},
       byteArray = {1, 0, 127, -128, -1},
@@ -45,63 +45,63 @@ public @interface MoreAnnotations {
       stringArray = {"first", "second", ""},
       classArray = {CharSequence.class, String.class, StringBuilder.class}
    )
-   String annotatedWithArrays = "";
+   val annotatedWithArrays: String = ""
 
-   int intValue() default 1;
+   abstract fun intValue(): int default 1
 
-   byte byteValue() default 1;
+   abstract fun byteValue(): byte default 1
 
-   float floatValue() default 1.0F / 0.0F;
+   abstract fun floatValue(): float default 1.0F / 0.0F
 
-   double doubleValue() default 0.0 / 0.0;
+   abstract fun doubleValue(): double default 0.0 / 0.0
 
-   boolean booleanValue() default true;
+   abstract fun booleanValue(): boolean default true
 
-   short shortValue() default 1;
+   abstract fun shortValue(): short default 1
 
-   long longValue() default 1L;
+   abstract fun longValue(): long default 1L
 
-   char charValue() default '0';
+   abstract fun charValue(): char default '0'
 
-   MoreAnnotations.TestEnum enumValue() default MoreAnnotations.TestEnum.FirstValue;
+   abstract fun enumValue(): MoreAnnotations.TestEnum default MoreAnnotations.TestEnum.FirstValue
 
-   MoreAnnotations.NestedAnnotation annotationValue() default @MoreAnnotations.NestedAnnotation;
+   abstract fun annotationValue(): MoreAnnotations.NestedAnnotation default @MoreAnnotations.NestedAnnotation
 
-   String stringValue() default "default";
+   abstract fun stringValue(): String default "default"
 
-   Class<? extends CharSequence> classValue() default CharSequence.class;
+   abstract fun classValue(): Class<? extends CharSequence> default CharSequence.class
 
-   int[] intArray() default {1, 0, 2147483647, -2147483648};
+   abstract fun intArray(): int[] default {1, 0, 2147483647, -2147483648}
 
-   byte[] byteArray() default {1, 0, 127, -128, -1};
+   abstract fun byteArray(): byte[] default {1, 0, 127, -128, -1}
 
-   float[] floatArray() default {1.0F, 0.0F, 3.4028235E38F, 1.4E-45F, 0.0F / 0.0F, 1.0F / 0.0F, -1.0F / 0.0F};
+   abstract fun floatArray(): float[] default {1.0F, 0.0F, 3.4028235E38F, 1.4E-45F, 0.0F / 0.0F, 1.0F / 0.0F, -1.0F / 0.0F}
 
-   double[] doubleArray() default {1.0, 0.0, 1.7976931348623157E308, 4.9E-324, 0.0 / 0.0, 1.0 / 0.0, -1.0 / 0.0};
+   abstract fun doubleArray(): double[] default {1.0, 0.0, 1.7976931348623157E308, 4.9E-324, 0.0 / 0.0, 1.0 / 0.0, -1.0 / 0.0}
 
-   boolean[] booleanArray() default {true, false};
+   abstract fun booleanArray(): boolean[] default {true, false}
 
-   short[] shortArray() default {1, 0, 32767, -32768, -1};
+   abstract fun shortArray(): short[] default {1, 0, 32767, -32768, -1}
 
-   long[] longArray() default {1L, 0L, 9223372036854775807L, -9223372036854775808L};
+   abstract fun longArray(): long[] default {1L, 0L, 9223372036854775807L, -9223372036854775808L}
 
-   char[] charArray() default {'\u0001', '\u0000', '\uffff', '\u0000'};
+   abstract fun charArray(): char[] default {'\u0001', '\u0000', '\uffff', '\u0000'}
 
-   MoreAnnotations.TestEnum[] enumArray() default {MoreAnnotations.TestEnum.FirstValue};
+   abstract fun enumArray(): MoreAnnotations.TestEnum[] default {MoreAnnotations.TestEnum.FirstValue}
 
-   MoreAnnotations.NestedAnnotation[] annotationArray() default {@MoreAnnotations.NestedAnnotation};
+   abstract fun annotationArray(): MoreAnnotations.NestedAnnotation[] default {@MoreAnnotations.NestedAnnotation}
 
-   String[] stringArray() default {"first", "second", ""};
+   abstract fun stringArray(): String[] default {"first", "second", ""}
 
-   Class<? extends CharSequence>[] classArray() default {CharSequence.class, String.class, StringBuilder.class};
+   abstract fun classArray(): Class<? extends CharSequence>[] default {CharSequence.class, String.class, StringBuilder.class}
 
-   public @interface NestedAnnotation {
-      String value() default "MyString";
+   abstract inner annotation class NestedAnnotation {
+      abstract fun value(): String default "MyString"
    }
 
-   public static enum TestEnum {
-      FirstValue,
-      SecondValue;
+   inner enum TestEnum {
+      val FirstValue,
+      val SecondValue;
    }
 }
 

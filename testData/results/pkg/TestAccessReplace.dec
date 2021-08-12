@@ -1,20 +1,20 @@
-package pkg;
+package pkg
 
-public class TestAccessReplace {
-   private static void fooS() {
+open class TestAccessReplace {
+   private fun fooS() {
    }// 19
 
-   private void foo() {
+   private fun foo() {
    }// 20
 
-   private static void fooSParams(long a, long b) {
+   private fun fooSParams(a: long, b: long) {
    }// 21
 
-   private void fooParams(long a, long b) {
+   private fun fooParams(a: long, b: long) {
    }// 22
 
-   public class Inner {
-      public Inner(String b) {
+   open class Inner {
+      open constructor(b: String) {
          TestAccessReplace.fooS();// 26
          TestAccessReplace.this.foo();// 27
          TestAccessReplace.fooSParams(1L, 2L);// 28

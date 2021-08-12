@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-public final class TestIrreducible {
-   public static int field;
+class TestIrreducible {
+   var field: int = null
 
-   public static void test() {
+   open fun test() {
       if (field == 1) {// 24 25 26
          System.out.println("2");
       } else {

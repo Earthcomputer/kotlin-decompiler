@@ -1,18 +1,18 @@
-package pkg;
+package pkg
 
-public class TestOverloadedNull {
-   public void test() {
+open class TestOverloadedNull {
+   open fun test() {
       Object o = null;// 5
       this.accept((Integer)o);// 6
    }// 7
 
-   private void accept(Object o) {
+   private fun accept(o: Object) {
    }// 11
 
-   private void accept(Number n) {
+   private fun accept(n: Number) {
    }// 15
 
-   private void accept(Integer i) {
+   private fun accept(i: Integer) {
    }// 19
 }
 

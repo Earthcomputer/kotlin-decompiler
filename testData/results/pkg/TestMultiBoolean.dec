@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestMultiBoolean {
-   public void test(boolean a) {
+open class TestMultiBoolean {
+   open fun test(a: boolean) {
       if (a && a) {// 5
          System.out.println(1);// 6
       }

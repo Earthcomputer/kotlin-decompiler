@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-import java.util.List;
-import java.util.Map;
+import java.util.List
+import java.util.Map
 
-public class TestGenericMapInput {
-   public static <N extends Number> void addToMap(Map<String, N> map, List<N> source) {
+open class TestGenericMapInput {
+   open <N extends Number> fun addToMap(map: Map<String, N>, source: List<N>) {
       for(N item : source) {// 10
          map.put(item.toString(), item);// 12
       }

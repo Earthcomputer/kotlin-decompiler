@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public record TestRecordAnno(@RC @TA int x, int y) {
-   public TestRecordAnno(@TA int x, @P int y) {
+data class TestRecordAnno(@RC @TA int x, int y) {
+   open constructor(@TA x: int, @P y: int) {
       this.x = x;// 5
       this.y = y;
    }

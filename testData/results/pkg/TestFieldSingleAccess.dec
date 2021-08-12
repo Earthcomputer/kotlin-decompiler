@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-public final class TestFieldSingleAccess {
-   public Integer field;
+class TestFieldSingleAccess {
+   var field: Integer = null
 
-   public final void test() {
+   fun test() {
       Integer var10000 = this.field;// 24 25
       if (this.field != null) {// 27
          System.out.println(var10000);// 28 30
@@ -11,7 +11,7 @@ public final class TestFieldSingleAccess {
 
    }// 32
 
-   public final void test1() {
+   fun test1() {
       synchronized(this.field) {// 38 39 42
          System.out.println('1');// 44 45 46
       }

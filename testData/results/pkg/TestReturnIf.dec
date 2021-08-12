@@ -1,27 +1,27 @@
-package pkg;
+package pkg
 
-public class TestReturnIf {
-   boolean testEq(int x) {
+open class TestReturnIf {
+   open fun testEq(x: int): boolean {
       return x == 1;// 5
    }
 
-   boolean testL(int x) {
+   open fun testL(x: int): boolean {
       return x < 1;// 9
    }
 
-   boolean testG(int x) {
+   open fun testG(x: int): boolean {
       return x > 1;// 13
    }
 
-   boolean testLEq(int x) {
+   open fun testLEq(x: int): boolean {
       return x <= 1;// 17
    }
 
-   boolean testGEq(int x) {
+   open fun testGEq(x: int): boolean {
       return x >= 1;// 21
    }
 
-   boolean testNEq(int x) {
+   open fun testNEq(x: int): boolean {
       return x != 1;// 25
    }
 }

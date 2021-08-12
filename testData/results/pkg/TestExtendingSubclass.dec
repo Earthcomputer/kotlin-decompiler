@@ -1,13 +1,13 @@
-package pkg;
+package pkg
 
-public class TestExtendingSubclass {
-   class Subclass1 {
-      Subclass1(String name) {
+open class TestExtendingSubclass {
+   open class Subclass1 {
+      open constructor(name: String) {
       }// 9
    }
 
-   class Subclass2 extends TestExtendingSubclass.Subclass1 {
-      Subclass2(String name) {
+   open class Subclass2  : TestExtendingSubclass.Subclass1() {
+      open constructor(name: String) {
          super(name);// 14
       }// 15
    }

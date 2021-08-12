@@ -1,45 +1,45 @@
-package pkg;
+package pkg
 
-public abstract class TestDeprecations {
+abstract class TestDeprecations {
    /** @deprecated */
-   public int byComment;
+   var byComment: int = null
    /** @deprecated */
    @Deprecated
-   public int byAnno;
+   var byAnno: int = null
 
    /** @deprecated */
-   public void byComment() {
+   open fun byComment() {
       int a = 5;// 27
    }// 28
 
    /** @deprecated */
-   public abstract void byCommentAbstract();
+   abstract fun byCommentAbstract()
 
    /** @deprecated */
    @Deprecated
-   public void byAnno() {
+   open fun byAnno() {
       int a = 5;// 35
    }// 36
 
    /** @deprecated */
    @Deprecated
-   public abstract void byAnnoAbstract();
+   abstract fun byAnnoAbstract()
 
    /** @deprecated */
    @Deprecated
-   public static class ByAnno {
-      int a = 5;
+   inner open class ByAnno {
+      var a: int = 5
 
-      void foo() {
+      open fun foo() {
          int x = 5;// 55
       }// 56
    }
 
    /** @deprecated */
-   public static class ByComment {
-      int a = 5;
+   inner open class ByComment {
+      var a: int = 5
 
-      void foo() {
+      open fun foo() {
          int x = 5;// 46
       }// 47
    }

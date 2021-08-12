@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-import java.io.File;
+import java.io.File
 
-public class TestLocalsNames {
-   private static void rename(File file, boolean recursively) {
+open class TestLocalsNames {
+   private fun rename(file: File, recursively: boolean) {
       if (file.isDirectory()) {// 22
          long start = System.currentTimeMillis();// 23
          File[] files = file.listFiles();// 25

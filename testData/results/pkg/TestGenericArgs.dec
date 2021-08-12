@@ -1,22 +1,22 @@
-package pkg;
+package pkg
 
-public class TestGenericArgs {
-   private static <T> void genericSingle(Class<T> param) {
+open class TestGenericArgs {
+   private <T> fun genericSingle(param: Class<T>) {
    }// 4
 
-   private static <T> void genericVarArgs(Class<T>... param) {
+   private <T> fun genericVarArgs(vararg param: Class<T>) {
    }// 6
 
-   private static <T> void genericArray(Class<T>[] param) {
+   private <T> fun genericArray(param: Class<T>[]) {
    }// 8
 
-   private static <T> void single(Class param) {
+   private <T> fun single(param: Class) {
    }// 10
 
-   private static <T> void varArgs(Class... param) {
+   private <T> fun varArgs(vararg param: Class) {
    }// 12
 
-   private static <T> void array(Class[] param) {
+   private <T> fun array(param: Class[]) {
    }// 14
 }
 

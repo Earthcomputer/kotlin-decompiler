@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-public class TestLoopMerging {
-   public float a;
-   public float b;
+open class TestLoopMerging {
+   var a: float = null
+   var b: float = null
 
-   public float test() {
+   open fun test(): float {
       while(this.a - this.b < -180.0F) {
          this.b -= 360.0F;
       }
@@ -16,7 +16,7 @@ public class TestLoopMerging {
       return this.a;
    }
 
-   public float test2() {
+   open fun test2(): float {
       for(this.a = 0.0F; this.a < 10.0F; ++this.a) {
          System.out.println(this.a);
       }
@@ -28,7 +28,7 @@ public class TestLoopMerging {
       return this.a;
    }
 
-   public float test3() {
+   open fun test3(): float {
       int[] as = new int[0];
 
       for(int f : as) {
@@ -50,7 +50,7 @@ public class TestLoopMerging {
       return this.a;
    }
 
-   public float test4() {
+   open fun test4(): float {
       int[] as = new int[0];
 
       for(int f : as) {

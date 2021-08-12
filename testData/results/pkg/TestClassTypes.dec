@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList
+import java.util.List
 
-public class TestClassTypes {
-   public void testBoolean() {
+open class TestClassTypes {
+   open fun testBoolean() {
       byte var7 = 0;// 25
       long time = System.currentTimeMillis();// 26
       if (time % 2L > 0L) {// 28
@@ -19,11 +19,11 @@ public class TestClassTypes {
 
    }// 38
 
-   public boolean testBit(int var0) {
+   open fun testBit(var0: int): boolean {
       return (var0 & 1) == 1;// 41
    }
 
-   public void testSwitchConsts(int a) {
+   open fun testSwitchConsts(a: int) {
       switch(a) {// 46
       case 88:
          System.out.println("1");// 48
@@ -38,7 +38,7 @@ public class TestClassTypes {
 
    }// 57
 
-   public void testAssignmentType(List list) {
+   open fun testAssignmentType(list: List) {
       List a = list;// 61
       if (list != null) {// 63
          (a = new ArrayList(list)).add("23");// 64

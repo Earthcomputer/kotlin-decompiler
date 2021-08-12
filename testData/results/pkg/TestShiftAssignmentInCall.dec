@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestShiftAssignmentInCall {
-   public void test(int x) {
+open class TestShiftAssignmentInCall {
+   open fun test(x: int) {
       int var2;
       int var3;
       System.out.println((var2 = x << 4) & (var3 = var2 >> 3) | var3 & var3 >> 2);// 5

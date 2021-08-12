@@ -1,49 +1,49 @@
-package pkg;
+package pkg
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.List
+import java.util.Map
 
-public class TestGenerics<A, B extends TestGenerics.Maps & List> {
-   static Map<String, Boolean> field = TestGenerics.Maps.newHashMap();
-   static List<List<String>> llstring = new ArrayList<>();
-   static List<Byte> bytes = new ArrayList<>();
-   A[] aArray = (A[])(new Object[10]);
+open class TestGenerics<A, B extends TestGenerics.Maps & List> {
+   var field: Map<String, Boolean> = TestGenerics.Maps.newHashMap()
+   var llstring: List<List<String>> = new ArrayList<>()
+   var bytes: List<Byte> = new ArrayList<>()
+   var aArray: A[] = (A[])(new Object[10])
 
-   public void genericAllocation() {
+   open fun genericAllocation() {
       this.aArray = (A[])((A[])(new Object[20]));// 30
    }// 31
 
-   public static void genericInference() {
+   open fun genericInference() {
       HashMap<String, Integer> test = TestGenerics.Maps.newHashMap();// 34
    }// 35
 
-   public void genericList() {
+   open fun genericList() {
       List<B> testList = new ArrayList<>();// 38
       B b = testList.get(0);// 39
       System.out.println("B:" + b);// 40
    }// 41
 
-   public void genericCast() {
+   open fun genericCast() {
       HashMap<String, Boolean> upcast = (HashMap)field;// 44
    }// 45
 
-   public void genericForEach() {
+   open fun genericForEach() {
       for(String s : field.keySet()) {// 48
          System.out.println(s);// 49
       }
 
    }// 51
 
-   public void genericForEachWithCast() {
+   open fun genericForEachWithCast() {
       for(String s : llstring.get(0)) {// 54
          System.out.println(s);// 55
       }
 
    }// 57
 
-   public <T extends Number> void genericSuperUp() {
+   open <T extends Number> fun genericSuperUp() {
       List<T> list = new ArrayList<>();// 60
 
       for(Number number : bytes) {// 61
@@ -52,8 +52,8 @@ public class TestGenerics<A, B extends TestGenerics.Maps & List> {
 
    }// 64
 
-   public static class Maps {
-      public static <K, V> HashMap<K, V> newHashMap() {
+   inner open class Maps {
+      open <K, V> fun newHashMap(): HashMap<K, V> {
          return new HashMap<>();// 68
       }
    }

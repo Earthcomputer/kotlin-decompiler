@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-import java.io.PrintStream;
+import java.io.PrintStream
 
-public class TestTernaryCall {
-   public void test(boolean a, boolean b, boolean c) {
+open class TestTernaryCall {
+   open fun test(a: boolean, b: boolean, c: boolean) {
       PrintStream var10000;
       boolean var10001;
       label25: {
@@ -35,7 +35,7 @@ public class TestTernaryCall {
       var10000.println(var10001);
    }// 6
 
-   public void test2(boolean a, boolean b, boolean c) {
+   open fun test2(a: boolean, b: boolean, c: boolean) {
       if (b) {// 9
          if (!c) {
             return;// 12

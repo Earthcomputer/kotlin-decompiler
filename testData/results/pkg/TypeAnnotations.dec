@@ -1,30 +1,30 @@
-package pkg;
+package pkg
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Target;
+import java.lang.annotation.ElementType
+import java.lang.annotation.Target
 
-class TypeAnnotations {
+open class TypeAnnotations {
    @TypeAnnotations.TA("field type")
-   private String f1;
+   private var f1: String = null
    @TypeAnnotations.MixA("field and type")
-   private String f2;
+   private var f2: String = null
 
    @TypeAnnotations.TA("return type")
-   int m1() {
+   open fun m1(): int {
       return 42;// 18
    }
 
-   void m2(@TypeAnnotations.TA("parameter") int i) {
+   open fun m2(@TypeAnnotations.TA("parameter") i: int) {
    }// 21
 
    @Target({ElementType.FIELD, ElementType.TYPE_USE})
-   @interface MixA {
-      String value();
+   abstract inner annotation class MixA {
+      abstract fun value(): String
    }
 
    @Target({ElementType.TYPE_USE})
-   @interface TA {
-      String value();
+   abstract inner annotation class TA {
+      abstract fun value(): String
    }
 }
 

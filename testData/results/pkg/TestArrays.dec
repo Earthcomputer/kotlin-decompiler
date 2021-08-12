@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-public class TestArrays {
-   private static final int[] array1 = new int[]{1, 2, 3, 4};
-   private static int[] array2 = new int[]{2, 3, 4, 5};
-   private int[] array3 = new int[]{3, 4, 5, 6};
+open class TestArrays {
+   private val array1: int[] = new int[]{1, 2, 3, 4}
+   private var array2: int[] = new int[]{2, 3, 4, 5}
+   private var array3: int[] = new int[]{3, 4, 5, 6}
 
-   void test() {
+   open fun test() {
       int a = this.array3[3];// 9
       int[] array = new int[a];// 10
       array[array1[1]] = array2[3];// 11

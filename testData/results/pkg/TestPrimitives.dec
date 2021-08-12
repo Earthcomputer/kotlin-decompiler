@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.HashMap
+import java.util.List
 
-public class TestPrimitives {
-   private void testInvalidUnboxing() {
+open class TestPrimitives {
+   private fun testInvalidUnboxing() {
       List<Integer> lst = null;// 7
       lst.remove(Integer.valueOf(0));// 8
       this.genericBoxing((short)0);// 9
@@ -14,17 +14,17 @@ public class TestPrimitives {
       this.genericParameter(lst, 0);// 13
    }// 14
 
-   private <T> void genericBoxing(T value) {
+   private <T> fun genericBoxing(value: T) {
    }// 16
 
-   private <T> T genericReturn(List<T> value) {
+   private <T> fun genericReturn(value: List<T>): T {
       return value.get(0);// 17
    }
 
-   private <T> void genericParameter(List<T> p, T v) {
+   private <T> fun genericParameter(p: List<T>, v: T) {
    }// 18
 
-   public void printAll() {
+   open fun printAll() {
       this.printBoolean(true);// 21
       this.printByte((byte)123);// 22
       this.printShort((short)257);// 23
@@ -59,112 +59,112 @@ public class TestPrimitives {
       new TestPrimitives(Boolean.valueOf("false"), Byte.valueOf("123"), Short.valueOf("257"), Integer.valueOf("40000"), Long.valueOf("123"), Float.valueOf("3.14"), Double.valueOf("1.618"), new Character('A'));// 57 58
    }// 59
 
-   private TestPrimitives(boolean bool, byte b, short s, int i, long l, float f, double d, char c) {
+   private constructor(bool: boolean, b: byte, s: short, i: int, l: long, f: float, d: double, c: char) {
       System.out.printf("%b, %d, %d, %d, %d, %.2f, %.2f, %c", bool, b, s, i, l, f, d, c);// 62
    }// 63
 
-   private TestPrimitives(Character c, Double d, Float f, Long l, Integer i, Short s, Byte b, Boolean bool) {
+   private constructor(c: Character, d: Double, f: Float, l: Long, i: Integer, s: Short, b: Byte, bool: Boolean) {
       System.out.printf("%b, %d, %d, %d, %d, %.2f, %.2f, %c", bool, b, s, i, l, f, d, c);// 66
    }// 67
 
-   public void printBoolean(boolean b) {
+   open fun printBoolean(b: boolean) {
       System.out.printf("%b", b);// 70
    }// 71
 
-   public void printByte(byte b) {
+   open fun printByte(b: byte) {
       System.out.printf("%d", b);// 74
    }// 75
 
-   public void printShort(short s) {
+   open fun printShort(s: short) {
       System.out.printf("%d", s);// 78
    }// 79
 
-   public void printInt(int i) {
+   open fun printInt(i: int) {
       System.out.printf("%d", i);// 82
    }// 83
 
-   public void printLong(long l) {
+   open fun printLong(l: long) {
       System.out.printf("%d", l);// 86
    }// 87
 
-   public void printFloat(float f) {
+   open fun printFloat(f: float) {
       System.out.printf("%f", f);// 90
    }// 91
 
-   public void printDouble(double d) {
+   open fun printDouble(d: double) {
       System.out.printf("%f", d);// 94
    }// 95
 
-   public void printChar(char c) {
+   open fun printChar(c: char) {
       System.out.printf("%c", c);// 98
    }// 99
 
-   public void printBooleanBoxed(Boolean b) {
+   open fun printBooleanBoxed(b: Boolean) {
       System.out.printf("%b", b);// 103
    }// 104
 
-   public void printByteBoxed(Byte b) {
+   open fun printByteBoxed(b: Byte) {
       System.out.printf("%d", b);// 107
    }// 108
 
-   public void printShortBoxed(Short s) {
+   open fun printShortBoxed(s: Short) {
       System.out.printf("%d", s);// 111
    }// 112
 
-   public void printIntBoxed(Integer i) {
+   open fun printIntBoxed(i: Integer) {
       System.out.printf("%d", i);// 115
    }// 116
 
-   public void printLongBoxed(Long l) {
+   open fun printLongBoxed(l: Long) {
       System.out.printf("%d", l);// 119
    }// 120
 
-   public void printFloatBoxed(Float f) {
+   open fun printFloatBoxed(f: Float) {
       System.out.printf("%f", f);// 123
    }// 124
 
-   public void printDoubleBoxed(Double d) {
+   open fun printDoubleBoxed(d: Double) {
       System.out.printf("%f", d);// 127
    }// 128
 
-   public void printCharBoxed(Character c) {
+   open fun printCharBoxed(c: Character) {
       System.out.printf("%c", c);// 131
    }// 132
 
-   public boolean getBoolean() {
+   open fun getBoolean(): boolean {
       return false;// 136
    }
 
-   public byte getByte() {
+   open fun getByte(): byte {
       return -128;// 140
    }
 
-   public short getShort() {
+   open fun getShort(): short {
       return -32768;// 144
    }
 
-   public int getInt() {
+   open fun getInt(): int {
       return 42;// 148
    }
 
-   public Integer getInteger() {
+   open fun getInteger(): Integer {
       return 40000;// 152
    }
 
-   public Character getCharacter() {
+   open fun getCharacter(): Character {
       return 'Z';// 156
    }
 
-   public void printNarrowed() {
+   open fun printNarrowed() {
       this.printByte((byte)this.getInt());// 160
       this.printShort((short)this.getInt());// 161
    }// 162
 
-   public void constructor() {
+   open fun constructor() {
       new Byte((byte)1);// 165
    }// 166
 
-   private boolean compare(char c) {
+   private fun compare(c: char): boolean {
       boolean res = c > -1;// 169
       res = c > 0;// 170
       res = c > 1;// 171
@@ -180,11 +180,11 @@ public class TestPrimitives {
       return c > 255;// 181 182
    }
 
-   void testAutoBoxingCallRequired(boolean value) {
+   open fun testAutoBoxingCallRequired(value: boolean) {
       Boolean.valueOf(value).hashCode();// 186
    }// 187
 
-   void testCastRequired() {
+   open fun testCastRequired() {
       HashMap<String, Byte> map = new HashMap<>();// 190
       map.put("test", (byte)0);// 191
    }// 192

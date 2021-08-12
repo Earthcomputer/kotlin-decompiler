@@ -1,19 +1,19 @@
-package pkg;
+package pkg
 
-public class TestStringLiteral {
-   public void testSplit() {
+open class TestStringLiteral {
+   open fun testSplit() {
       String[] array = "!~".split("!");// 5
       System.out.println(array.length);// 6
    }// 7
 
-   public void testEquals() {
+   open fun testEquals() {
       if ("".equals("")) {// 10
          System.out.println("Hi");// 11
       }
 
    }// 13
 
-   public void testReplace() {
+   open fun testReplace() {
       System.out.println("Hello".replace("l", "c"));// 16
    }// 17
 }

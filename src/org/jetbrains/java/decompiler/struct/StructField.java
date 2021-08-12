@@ -1,6 +1,11 @@
 // Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package org.jetbrains.java.decompiler.struct;
 
+import kotlinx.metadata.KmClass;
+import kotlinx.metadata.KmPackage;
+import kotlinx.metadata.KmProperty;
+import kotlinx.metadata.jvm.KotlinClassMetadata;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.java.decompiler.main.DecompilerContext;
 import org.jetbrains.java.decompiler.main.extern.IFernflowerPreferences;
 import org.jetbrains.java.decompiler.struct.attr.StructGeneralAttribute;
@@ -12,6 +17,7 @@ import org.jetbrains.java.decompiler.struct.gen.generics.GenericMethodDescriptor
 import org.jetbrains.java.decompiler.util.DataInputFullStream;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -46,6 +52,8 @@ public class StructField extends StructMember {
   private final String name;
   private final String descriptor;
   private final GenericFieldDescriptor signature;
+  private boolean hasCheckedKotlin = false;
+  private KmProperty kmProperty;
 
   protected StructField(int accessFlags, Map<String, StructGeneralAttribute> attributes, String name, String descriptor) {
     this(accessFlags, attributes, name, descriptor, null);
@@ -73,5 +81,35 @@ public class StructField extends StructMember {
 
   public GenericFieldDescriptor getSignature() {
     return signature;
+  }
+
+  @Nullable
+  public KmProperty getKmProperty(StructClass containingClass) {
+    if (hasCheckedKotlin) {
+      return kmProperty;
+    }
+    hasCheckedKotlin = true;
+
+    List<KmProperty> properties;
+
+    KmClass kmClass = containingClass.getKmClass();
+    if (kmClass != null) {
+      properties = kmClass.getProperties();
+    } else {
+      KmPackage kmPackage = containingClass.getKmPackage();
+      if (kmPackage != null) {
+        properties = kmPackage.getProperties();
+      } else {
+        return null;
+      }
+    }
+
+    for (KmProperty property : properties) {
+      if (name.equals(property.getName())) {
+        return kmProperty = property;
+      }
+    }
+
+    return null;
   }
 }

@@ -1,23 +1,23 @@
-package pkg;
+package pkg
 
-class TestPrimitiveNarrowing {
-   TestPrimitiveNarrowing(Short value) {
+open class TestPrimitiveNarrowing {
+   open constructor(value: Short) {
    }// 6
 
-   static void invocations() {
+   open fun invocations() {
       withInteger((Integer)null);// 9
       withShort((Short)null);// 10
       withByte((Byte)null);// 11
       new TestPrimitiveNarrowing((Short)null);// 12
    }// 13
 
-   static void withByte(Byte defaultValue) {
+   open fun withByte(defaultValue: Byte) {
    }// 16
 
-   static void withInteger(Integer defaultValue) {
+   open fun withInteger(defaultValue: Integer) {
    }// 19
 
-   static void withShort(Short defaultValue) {
+   open fun withShort(defaultValue: Short) {
    }// 22
 }
 

@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestLoopBreak {
-   public void test(int i) {
+open class TestLoopBreak {
+   open fun test(i: int) {
       while(i > 10) {// 5
          ++i;// 6
          if (i != 15) {// 8

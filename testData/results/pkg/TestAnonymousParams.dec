@@ -1,14 +1,12 @@
-package pkg;
+package pkg
 
-import java.io.FilterInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.FilterInputStream
+import java.io.InputStream
 
-public class TestAnonymousParams {
-   void foo(InputStream in, final int a) throws IOException {
+open class TestAnonymousParams {
+   open fun foo(in: InputStream, a: int) {
       FilterInputStream filterInputStream = new FilterInputStream(in) {// 24
-         @Override
-         public int read() throws IOException {
+         override open fun read(): int {
             return a;// 27
          }
       };
@@ -18,27 +16,27 @@ public class TestAnonymousParams {
 
 class 'pkg/TestAnonymousParams$1' {
    method 'read ()I' {
-      1      11
-      2      11
-      3      11
-      4      11
+      1      9
+      2      9
+      3      9
+      4      9
    }
 }
 
 class 'pkg/TestAnonymousParams' {
    method 'foo (Ljava/io/InputStream;I)V' {
-      5      8
-      a      8
-      b      14
-      c      14
-      d      14
-      e      14
-      10      15
+      5      7
+      a      7
+      b      12
+      c      12
+      d      12
+      e      12
+      10      13
    }
 }
 
 Lines mapping:
-24 <-> 9
-27 <-> 12
-30 <-> 15
-31 <-> 16
+24 <-> 8
+27 <-> 10
+30 <-> 13
+31 <-> 14

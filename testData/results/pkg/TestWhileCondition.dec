@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestWhileCondition {
-   public void test1() {
+open class TestWhileCondition {
+   open fun test1() {
       int i = -10;// 7
 
       for(int j = 10; i < 0 && j > 0 || i * j > 3; --j) {// 8 10 12
@@ -10,7 +10,7 @@ public class TestWhileCondition {
 
    }// 14
 
-   public void test2() {
+   open fun test2() {
       int i = -10;// 17
       int j = 10;// 18
 

@@ -1,13 +1,13 @@
-package pkg;
+package pkg
 
-public class TestLocalScopeClash {
-   void acceptInt(int i) {
+open class TestLocalScopeClash {
+   open fun acceptInt(i: int) {
    }// 6
 
-   void acceptBoolean(boolean b) {
+   open fun acceptBoolean(b: boolean) {
    }// 10
 
-   void test(boolean a, boolean b) {
+   open fun test(a: boolean, b: boolean) {
       int i = 32767;// 14
       ++i;// 15
       this.acceptInt(i);// 16

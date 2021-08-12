@@ -1,24 +1,24 @@
-package pkg;
+package pkg
 
-import groovy.lang.Closure;
-import groovy.lang.GroovyObject;
-import groovy.lang.MetaClass;
-import groovy.transform.Generated;
-import groovy.transform.Internal;
-import java.beans.Transient;
-import java.util.concurrent.Callable;
-import org.codehaus.groovy.runtime.GeneratedClosure;
-import org.codehaus.groovy.runtime.ScriptBytecodeAdapter;
-import org.codehaus.groovy.runtime.callsite.CallSite;
+import groovy.lang.Closure
+import groovy.lang.GroovyObject
+import groovy.lang.MetaClass
+import groovy.transform.Generated
+import groovy.transform.Internal
+import java.beans.Transient
+import java.util.concurrent.Callable
+import org.codehaus.groovy.runtime.GeneratedClosure
+import org.codehaus.groovy.runtime.ScriptBytecodeAdapter
+import org.codehaus.groovy.runtime.callsite.CallSite
 
-public class TestGroovyClass implements GroovyObject {
-   private final TestGroovyClass.Nested n;
-   private final TestGroovyClass.Inner i;
-   private final Runnable r;
-   private final Callable<String> c;
+open class TestGroovyClass  : GroovyObject {
+   private val n: TestGroovyClass.Nested = null
+   private val i: TestGroovyClass.Inner = null
+   private val r: Runnable = null
+   private val c: Callable<String> = null
 
    @Generated
-   public TestGroovyClass() {
+   open constructor() {
       CallSite[] var1 = $getCallSiteArray();
       super();
       Object var2 = var1[0].callConstructor(TestGroovyClass.Nested.class);// 9
@@ -36,7 +36,7 @@ public class TestGroovyClass implements GroovyObject {
    @Generated
    @Internal
    @Transient
-   public MetaClass getMetaClass() {
+   open fun getMetaClass(): MetaClass {
       MetaClass var10000 = this.metaClass;
       if (this.metaClass != null) {
          return var10000;
@@ -48,33 +48,33 @@ public class TestGroovyClass implements GroovyObject {
 
    @Generated
    @Internal
-   public void setMetaClass(MetaClass var1) {
+   open fun setMetaClass(var1: MetaClass) {
       this.metaClass = var1;
    }
 
    @Generated
-   public final TestGroovyClass.Nested getN() {
+   fun getN(): TestGroovyClass.Nested {
       return this.n;
    }
 
    @Generated
-   public final TestGroovyClass.Inner getI() {
+   fun getI(): TestGroovyClass.Inner {
       return this.i;
    }
 
    @Generated
-   public final Runnable getR() {
+   fun getR(): Runnable {
       return this.r;
    }
 
    @Generated
-   public final Callable<String> getC() {
+   fun getC(): Callable<String> {
       return this.c;
    }
 
-   public class Inner implements GroovyObject {
+   open class Inner  : GroovyObject {
       @Generated
-      public Inner() {
+      open constructor() {
          CallSite[] var2 = $getCallSiteArray();
          super();
          MetaClass var4 = this.$getStaticMetaClass();
@@ -84,7 +84,7 @@ public class TestGroovyClass implements GroovyObject {
       @Generated
       @Internal
       @Transient
-      public MetaClass getMetaClass() {
+      open fun getMetaClass(): MetaClass {
          MetaClass var10000 = this.metaClass;
          if (this.metaClass != null) {
             return var10000;
@@ -96,14 +96,14 @@ public class TestGroovyClass implements GroovyObject {
 
       @Generated
       @Internal
-      public void setMetaClass(MetaClass var1) {
+      open fun setMetaClass(var1: MetaClass) {
          this.metaClass = var1;
       }
    }
 
-   public static class Nested implements GroovyObject {
+   inner open class Nested  : GroovyObject {
       @Generated
-      public Nested() {
+      open constructor() {
          CallSite[] var1 = $getCallSiteArray();
          super();
          MetaClass var2 = this.$getStaticMetaClass();
@@ -113,7 +113,7 @@ public class TestGroovyClass implements GroovyObject {
       @Generated
       @Internal
       @Transient
-      public MetaClass getMetaClass() {
+      open fun getMetaClass(): MetaClass {
          MetaClass var10000 = this.metaClass;
          if (this.metaClass != null) {
             return var10000;
@@ -125,42 +125,42 @@ public class TestGroovyClass implements GroovyObject {
 
       @Generated
       @Internal
-      public void setMetaClass(MetaClass var1) {
+      open fun setMetaClass(var1: MetaClass) {
          this.metaClass = var1;
       }
    }
 
-   public final class _closure1 extends Closure implements GeneratedClosure {
-      public _closure1(Object _outerInstance, Object _thisObject) {
+   class _closure1  : Closure() , GeneratedClosure {
+      open constructor(_outerInstance: Object, _thisObject: Object) {
          CallSite[] var3 = $getCallSiteArray();
          super(_outerInstance, _thisObject);
       }
 
-      public Object doCall(Object it) {
+      open fun doCall(it: Object): Object {
          CallSite[] var2 = $getCallSiteArray();
          return var2[0].callCurrent(this, "I'm runnable");// 11
       }
 
       @Generated
-      public Object doCall() {
+      open fun doCall(): Object {
          CallSite[] var1 = $getCallSiteArray();
          return this.doCall((Object)null);
       }
    }
 
-   public final class _closure2 extends Closure implements GeneratedClosure {
-      public _closure2(Object _outerInstance, Object _thisObject) {
+   class _closure2  : Closure() , GeneratedClosure {
+      open constructor(_outerInstance: Object, _thisObject: Object) {
          CallSite[] var3 = $getCallSiteArray();
          super(_outerInstance, _thisObject);
       }
 
-      public Object doCall(Object it) {
+      open fun doCall(it: Object): Object {
          CallSite[] var2 = $getCallSiteArray();
          return "I'm callable";// 12
       }
 
       @Generated
-      public Object doCall() {
+      open fun doCall(): Object {
          CallSite[] var1 = $getCallSiteArray();
          return this.doCall((Object)null);
       }

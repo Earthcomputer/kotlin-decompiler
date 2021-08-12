@@ -1,21 +1,21 @@
-package pkg;
+package pkg
 
-public class TestGenericStatic<T extends TestGenericStatic.Generic> {
-   private final T generic;
+open class TestGenericStatic<T extends TestGenericStatic.Generic> {
+   private val generic: T = null
 
-   public TestGenericStatic(T generic) {
+   open constructor(generic: T) {
       this.generic = generic;// 10
    }// 11
 
-   public static void main() {
+   open fun main() {
    }// 15
 
-   private static <T extends TestGenericStatic.Generic> T call(String name, TestGenericStatic<T> holder) {
+   private <T extends TestGenericStatic.Generic> fun call(name: String, holder: TestGenericStatic<T>): T {
       return holder.generic;// 18
    }
 
-   public static class Generic {
-      void test() {
+   inner open class Generic {
+      open fun test() {
          System.out.println("Hi!");// 23
       }// 24
    }

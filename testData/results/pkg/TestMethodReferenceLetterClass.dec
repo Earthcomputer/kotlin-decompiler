@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-import java.util.function.Consumer;
+import java.util.function.Consumer
 
-public class TestMethodReferenceLetterClass {
-   void boo() {
+open class TestMethodReferenceLetterClass {
+   open fun boo() {
       Consumer<R> foo = R::foo;// 22
    }// 23
 }

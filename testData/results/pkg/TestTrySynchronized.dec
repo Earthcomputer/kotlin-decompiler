@@ -1,12 +1,12 @@
-package pkg;
+package pkg
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.FileInputStream
+import java.io.InputStream
 
-public class TestTrySynchronized {
-   private static TestTrySynchronized monitor = new TestTrySynchronized();
+open class TestTrySynchronized {
+   private var monitor: TestTrySynchronized = new TestTrySynchronized()
 
-   public static void case01() throws Exception {
+   open fun case01() {
       synchronized(monitor) {// 11
          System.out.println("Inside synchronized block.");// 12
       }// 13
@@ -21,7 +21,7 @@ public class TestTrySynchronized {
 
    }// 21
 
-   public static void case02() throws Exception {
+   open fun case02() {
       synchronized(monitor) {// 25
          System.out.println("Inside first synchronized block.");// 26
       }// 27
@@ -39,7 +39,7 @@ public class TestTrySynchronized {
 
    }// 41
 
-   private static InputStream getInputStream() {
+   private fun getInputStream(): InputStream {
       return null;// 44
    }
 }

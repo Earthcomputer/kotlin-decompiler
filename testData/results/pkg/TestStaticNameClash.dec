@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-public class TestStaticNameClash {
-   public static String property;
+open class TestStaticNameClash {
+   var property: String = null
 
-   public static void setProperty(String property) {
+   open fun setProperty(property: String) {
       TestStaticNameClash.property = property;// 8
    }// 9
 }

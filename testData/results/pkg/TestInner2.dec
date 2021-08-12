@@ -1,26 +1,26 @@
-package pkg;
+package pkg
 
-class TestInner2 {
-   private TestInner2() {
+open class TestInner2 {
+   private constructor() {
    }// 4
 
-   private TestInner2(int a) {
+   private constructor(a: int) {
    }// 5
 
-   class Another extends TestInner2 {
+   open class Another  : TestInner2() {
    }
 
-   class Another2 extends TestInner2 {
-      Another2() {
+   open class Another2  : TestInner2() {
+      open constructor() {
          super(2);// 19
       }// 20
    }
 
-   static class AnotherStatic extends TestInner2 {
+   inner open class AnotherStatic  : TestInner2() {
    }
 
-   static class AnotherStatic2 extends TestInner2 {
-      AnotherStatic2() {
+   inner open class AnotherStatic2  : TestInner2() {
+      open constructor() {
          super(2);// 25
       }// 26
    }

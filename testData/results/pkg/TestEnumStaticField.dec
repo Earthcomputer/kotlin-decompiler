@@ -1,8 +1,8 @@
-package pkg;
+package pkg
 
-public enum TestEnumStaticField {
-   public static Integer field;
-   TEST_1,
-   TEST_2;
+enum TestEnumStaticField {
+   var field: Integer = null
+   var TEST_1 = null,
+   var TEST_2 = null;
 }
 

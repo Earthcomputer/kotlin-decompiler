@@ -1,37 +1,37 @@
-package pkg;
+package pkg
 
-class TestSyntheticAccess {
-   private static int s;
-   private int i;
+open class TestSyntheticAccess {
+   private var s: int = null
+   private var i: int = null
 
    private class Assigner {
-      void assignI(int newValue) {
+      open fun assignI(newValue: int) {
          TestSyntheticAccess.this.i = newValue;// 32
       }// 33
 
-      void assignS(int newValue) {
+      open fun assignS(newValue: int) {
          TestSyntheticAccess.s = newValue;// 36
       }// 37
    }
 
    private class Incrementer {
-      void orI() {
+      open fun orI() {
          TestSyntheticAccess.this.i = TestSyntheticAccess.this.i | 1;// 10
       }// 11
 
-      void incrementI() {
+      open fun incrementI() {
          TestSyntheticAccess.this.i++;// 14
       }// 15
 
-      void decrementI() {
+      open fun decrementI() {
          --TestSyntheticAccess.this.i;// 18
       }// 19
 
-      void incrementS() {
+      open fun incrementS() {
          ++TestSyntheticAccess.s;// 22
       }// 23
 
-      void decrementS() {
+      open fun decrementS() {
          TestSyntheticAccess.s--;// 26
       }// 27
    }

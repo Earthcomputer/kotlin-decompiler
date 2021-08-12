@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestSwitchAssign {
-   public void test(int x) {
+open class TestSwitchAssign {
+   open fun test(x: int) {
       int assign = 1;// 5
       switch(x) {// 6
       case 1:

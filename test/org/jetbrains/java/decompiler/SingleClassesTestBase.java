@@ -130,7 +130,7 @@ public abstract class SingleClassesTestBase {
 
     String testFileName = classFile.getFileName().toString();
     String testName = testFileName.substring(0, testFileName.length() - 6);
-    Path decompiledFile = fixture.getTargetDir().resolve(testName + ".java");
+    Path decompiledFile = fixture.getTargetDir().resolve(testName + ".kt");
     assertTrue(Files.isRegularFile(decompiledFile));
     Path referenceFile = getReferenceFile(testFile);
     if (!Files.exists(referenceFile)) {

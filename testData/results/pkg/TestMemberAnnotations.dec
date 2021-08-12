@@ -1,22 +1,22 @@
-package pkg;
+package pkg
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
 
-class TestMemberAnnotations {
+open class TestMemberAnnotations {
    @TestMemberAnnotations.A("const")
-   public static final int CONST = 42;
+   val CONST: int = 42
    @TestMemberAnnotations.A("field")
-   private int f;
+   private var f: int = null
 
    @TestMemberAnnotations.A("return")
-   private int f(@TestMemberAnnotations.A("arg") int i) {
+   private fun f(@TestMemberAnnotations.A("arg") i: int): int {
       return i + this.f + 42;// 12
    }
 
    @Retention(RetentionPolicy.RUNTIME)
-   @interface A {
-      String value() default "";
+   abstract inner annotation class A {
+      abstract fun value(): String default ""
    }
 }
 

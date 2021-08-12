@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestDoWhileTrue {
-   public void test() {
+open class TestDoWhileTrue {
+   open fun test() {
       int x = 0;// 5
 
       do {

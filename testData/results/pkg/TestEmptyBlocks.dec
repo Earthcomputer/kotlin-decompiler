@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-import java.util.Random;
+import java.util.Random
 
-public class TestEmptyBlocks {
-   public static void foo() {
+open class TestEmptyBlocks {
+   open fun foo() {
       try {
          boolean i = false;// 24
       } catch (Exception var1) {// 25

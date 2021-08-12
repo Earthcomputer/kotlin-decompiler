@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-public class TestStaticBlockNull {
-   static final String a;
-   static final String b;
+open class TestStaticBlockNull {
+   val a: String
+   val b: String
 
-   static {
+   open {
       String s = null;// 8
       b = s;// 9
       a = s;

@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestArrayTernary {
-   public void test(boolean x) {
+open class TestArrayTernary {
+   open fun test(x: boolean) {
       int[] a = new int[]{1, 2, 3, 4};// 5
       int[] b = new int[]{4, 3, 2, 1};// 6
       (x ? a : b)[0] = x ? 33 : (a[x ? 3 : 2] == b[3] ? 2 : 4);// 8

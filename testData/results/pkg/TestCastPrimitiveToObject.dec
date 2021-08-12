@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-public class TestCastPrimitiveToObject {
-   private static int i = 0;
-   private static Object o = null;
+open class TestCastPrimitiveToObject {
+   private var i: int = 0
+   private var o: Object = null
 
-   public void test() {
+   open fun test() {
       o = (long)i;// 8
       System.out.println(o.getClass());// 9
       System.out.println(o);// 10

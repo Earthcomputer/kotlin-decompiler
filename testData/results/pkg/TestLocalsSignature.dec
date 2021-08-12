@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList
+import java.util.List
 
-public class TestLocalsSignature {
-   public static void main(String[] args) {
+open class TestLocalsSignature {
+   open fun main(args: String[]) {
       List<String> s = new ArrayList<>();// 24
       s.add("xxx");// 25
    }// 26

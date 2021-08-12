@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestSynchronizeNull {
-   public void test() {
+open class TestSynchronizeNull {
+   open fun test() {
       new Object();
       Object var2 = null;// 6
       synchronized(null) {

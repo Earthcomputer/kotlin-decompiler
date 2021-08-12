@@ -4,6 +4,7 @@ package org.jetbrains.java.decompiler.main;
 import org.jetbrains.java.decompiler.code.CodeConstants;
 import org.jetbrains.java.decompiler.code.Instruction;
 import org.jetbrains.java.decompiler.code.InstructionSequence;
+import org.jetbrains.java.decompiler.code.ModifierList;
 import org.jetbrains.java.decompiler.main.collectors.BytecodeSourceMapper;
 import org.jetbrains.java.decompiler.main.collectors.ImportCollector;
 import org.jetbrains.java.decompiler.main.extern.IFernflowerLogger;
@@ -52,7 +53,7 @@ public class ClassesProcessor implements CodeConstants {
 
     @Override
     public String toString() {
-      return simpleName + " " + ClassWriter.getModifiers(accessFlags) + " " + getType() + " " + source;
+      return simpleName + " " + ModifierList.fromAccessFlags(accessFlags) + " " + getType() + " " + source;
     }
 
     private String getType() {
@@ -412,7 +413,7 @@ public class ClassesProcessor implements CodeConstants {
         int index = cl.qualifiedName.lastIndexOf('/');
         if (index >= 0) {
           String packageName = cl.qualifiedName.substring(0, index).replace('/', '.');
-          buffer.append("package ").append(packageName).append(';').appendLineSeparator().appendLineSeparator();
+          buffer.append("package ").append(packageName).appendLineSeparator().appendLineSeparator();
         }
 
         importCollector.writeImports(buffer, true);

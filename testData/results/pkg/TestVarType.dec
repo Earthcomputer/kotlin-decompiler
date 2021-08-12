@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestVarType {
-   public void byteint() {
+open class TestVarType {
+   open fun byteint() {
       int i = 75;
       i += 5;
       i += 500;

@@ -1,10 +1,20 @@
 // Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package org.jetbrains.java.decompiler.struct;
 
+import kotlinx.metadata.KmClass;
+import kotlinx.metadata.KmPackage;
+import kotlinx.metadata.jvm.KotlinClassHeader;
+import kotlinx.metadata.jvm.KotlinClassMetadata;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.java.decompiler.code.CodeConstants;
 import org.jetbrains.java.decompiler.main.DecompilerContext;
 import org.jetbrains.java.decompiler.main.extern.IFernflowerLogger;
 import org.jetbrains.java.decompiler.main.extern.IFernflowerPreferences;
+import org.jetbrains.java.decompiler.modules.decompiler.exps.AnnotationExprent;
+import org.jetbrains.java.decompiler.modules.decompiler.exps.ConstExprent;
+import org.jetbrains.java.decompiler.modules.decompiler.exps.Exprent;
+import org.jetbrains.java.decompiler.modules.decompiler.exps.NewExprent;
+import org.jetbrains.java.decompiler.struct.attr.StructAnnotationAttribute;
 import org.jetbrains.java.decompiler.struct.attr.StructGeneralAttribute;
 import org.jetbrains.java.decompiler.struct.attr.StructGenericSignatureAttribute;
 import org.jetbrains.java.decompiler.struct.attr.StructRecordAttribute;
@@ -120,6 +130,11 @@ public class StructClass extends StructMember {
   private final GenericClassDescriptor signature;
 
   private ConstantPool pool;
+
+  private boolean hasCheckedKotlin = false;
+  private KotlinClassMetadata kotlinMetadata;
+  private KmClass kmClass;
+  private KmPackage kmPackage;
 
   private StructClass(int accessFlags,
                       Map<String, StructGeneralAttribute> attributes,
@@ -381,5 +396,144 @@ public class StructClass extends StructMember {
 
     superClasses = classList;
     return superClasses;
+  }
+
+  @Nullable
+  public KmClass getKmClass() {
+    KotlinClassMetadata metadata = getKotlinMetadata();
+    if (metadata instanceof KotlinClassMetadata.Class) {
+      if (kmClass == null) {
+        kmClass = ((KotlinClassMetadata.Class) metadata).toKmClass();
+      }
+      return kmClass;
+    }
+    return null;
+  }
+
+  @Nullable KmPackage getKmPackage() {
+    KotlinClassMetadata metadata = getKotlinMetadata();
+    if (metadata instanceof KotlinClassMetadata.FileFacade) {
+      if (kmPackage == null) {
+        kmPackage = ((KotlinClassMetadata.FileFacade) metadata).toKmPackage();
+      }
+      return kmPackage;
+    } else if (metadata instanceof KotlinClassMetadata.MultiFileClassPart) {
+      if (kmPackage == null) {
+        kmPackage = ((KotlinClassMetadata.MultiFileClassPart) metadata).toKmPackage();
+      }
+      return kmPackage;
+    }
+    return null;
+  }
+
+  @Nullable
+  public KotlinClassMetadata getKotlinMetadata() {
+    if (hasCheckedKotlin) {
+      return kotlinMetadata;
+    }
+    hasCheckedKotlin = true;
+
+    StructAnnotationAttribute annotations = getAttribute(StructGeneralAttribute.ATTRIBUTE_RUNTIME_VISIBLE_ANNOTATIONS);
+    if (annotations == null) {
+      return null;
+    }
+
+    Integer kind = null;
+    int[] metadataVersion = null;
+    String[] data1 = null;
+    String[] data2 = null;
+    String extraString = null;
+    String packageName = null;
+    Integer extraInt = null;
+    for (AnnotationExprent annotation : annotations.getAnnotations()) {
+      if ("kotlin/Metadata".equals(annotation.getClassName())) {
+        for (int i = 0; i < annotation.getParNames().size(); i++) {
+          String name = annotation.getParNames().get(i);
+          Exprent value = annotation.getParValues().get(i);
+          switch (name) {
+            case "k":
+              kind = toInteger(value);
+              break;
+            case "mv":
+              metadataVersion = toIntArray(value);
+              break;
+            case "d1":
+              data1 = toStringArray(value);
+              break;
+            case "d2":
+              data2 = toStringArray(value);
+              break;
+            case "xs":
+              extraString = toString(value);
+              break;
+            case "pn":
+              packageName = toString(value);
+              break;
+            case "xi":
+              extraInt = toInteger(value);
+              break;
+          }
+        }
+      }
+    }
+
+    KotlinClassHeader header = new KotlinClassHeader(kind, metadataVersion, data1, data2, extraString, packageName, extraInt);
+    return kotlinMetadata = KotlinClassMetadata.read(header);
+  }
+
+  private static Integer toInteger(Exprent exprent) {
+    if (!(exprent instanceof ConstExprent)) {
+      return null;
+    }
+    ConstExprent constExprent = (ConstExprent) exprent;
+    if (VarType.VARTYPE_INT.equals(constExprent.getConstType())) {
+      return constExprent.getIntValue();
+    } else {
+      return null;
+    }
+  }
+
+  private static String toString(Exprent exprent) {
+    if (!(exprent instanceof ConstExprent)) {
+      return null;
+    }
+    ConstExprent constExprent = (ConstExprent) exprent;
+    if (VarType.VARTYPE_STRING.equals(constExprent.getConstType())) {
+      return (String) constExprent.getValue();
+    } else {
+      return null;
+    }
+  }
+
+  private static int[] toIntArray(Exprent exprent) {
+    if (!(exprent instanceof NewExprent)) {
+      return null;
+    }
+
+    NewExprent newExprent = (NewExprent) exprent;
+    int[] result = new int[newExprent.getLstArrayElements().size()];
+    List<Exprent> lstArrayElements = newExprent.getLstArrayElements();
+    for (int j = 0; j < lstArrayElements.size(); j++) {
+      Exprent arrayElement = lstArrayElements.get(j);
+      result[j] = toInteger(arrayElement);
+    }
+
+    return result;
+  }
+
+  private static String[] toStringArray(Exprent exprent) {
+    if (!(exprent instanceof NewExprent)) {
+      return null;
+    }
+
+    NewExprent newExprent = (NewExprent) exprent;
+    String[] result = new String[newExprent.getLstArrayElements().size()];
+    List<Exprent> lstArrayElements = newExprent.getLstArrayElements();
+    for (int j = 0; j < lstArrayElements.size(); j++) {
+      Exprent arrayElement = lstArrayElements.get(j);
+      result[j] = toString(arrayElement);
+    }
+
+    return result;
   }
 }

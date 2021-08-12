@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestSplitColorComponents {
-   public byte[] split(int[] colors, byte[] in) {
+open class TestSplitColorComponents {
+   open fun split(colors: int[], in: byte[]): byte[] {
       for(int i = 0; i < colors.length; ++i) {// 5
          in[i * 4 + 0] = (byte)(colors[i] >> 24 & 0xFF);// 6
          in[i * 4 + 1] = (byte)(colors[i] >> 16 & 0xFF);// 7

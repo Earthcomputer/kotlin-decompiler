@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-public class TestClassNestedInitializer {
-   public String secret;
+open class TestClassNestedInitializer {
+   var secret: String = null
 
-   public void test() {
+   open fun test() {
       TestClassNestedInitializer obj = new TestClassNestedInitializer() {// 22
-         {
+         open {
             this.secret = "one";
          }
       };

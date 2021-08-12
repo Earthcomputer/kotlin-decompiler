@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestArrayDoWhile {
-   public int[] test() {
+open class TestArrayDoWhile {
+   open fun test(): int[] {
       int[] array = new int[10];// 5
       int i = 1;// 6
 

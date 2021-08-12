@@ -1,14 +1,14 @@
-package pkg;
+package pkg
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
+import java.io.IOException
+import java.io.InputStream
+import java.net.URISyntaxException
+import java.nio.file.FileSystem
+import java.nio.file.FileSystems
+import java.nio.file.Files
 
-public class TestTryWithResources {
-   public static void test1() {
+open class TestTryWithResources {
+   open fun test1() {
       try (FileSystem fileSystem = FileSystems.getFileSystem(TestTryWithResources.class.getResource("NOT").toURI())) {// 13
          fileSystem.getPath("PATH", "TO", "FILE");// 14
       } catch (IOException | URISyntaxException var13) {// 16
@@ -16,7 +16,7 @@ public class TestTryWithResources {
 
    }// 17
 
-   public static void test2() {
+   open fun test2() {
       try (
          FileSystem fileSystem = FileSystems.getFileSystem(TestTryWithResources.class.getResource("NOT").toURI());// 20
          InputStream stream = Files.newInputStream(fileSystem.getPath("PATH", "TO", "FILE"));// 21
@@ -27,7 +27,7 @@ public class TestTryWithResources {
 
    }// 25
 
-   public static void test3() {
+   open fun test3() {
       try (FileSystem fileSystem = FileSystems.getFileSystem(TestTryWithResources.class.getResource("NOT").toURI())) {// 28
          try (InputStream stream = Files.newInputStream(fileSystem.getPath("PATH", "TO", "FILE"))) {// 29
             stream.read();// 30

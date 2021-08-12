@@ -1,10 +1,10 @@
-package pkg;
+package pkg
 
-public class TestNextGaussian {
-   private boolean haveNextNextGaussian = false;
-   private double nextNextGaussian = 0.0;
+open class TestNextGaussian {
+   private var haveNextNextGaussian: boolean = false
+   private var nextNextGaussian: double = 0.0
 
-   public synchronized double nextGaussian() {
+   open fun nextGaussian(): double {
       if (this.haveNextNextGaussian) {// 9
          this.haveNextNextGaussian = false;// 10
          return this.nextNextGaussian;// 11
@@ -25,7 +25,7 @@ public class TestNextGaussian {
       }
    }
 
-   private double nextDouble() {
+   private fun nextDouble(): double {
       return 0.0;// 27
    }
 }

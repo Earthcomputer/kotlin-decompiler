@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestNestedLambdas {
-   public void test() {
+open class TestNestedLambdas {
+   open fun test() {
       int x = accept(i -> {// 6
          if (i == 0) {// 7
             accept(j -> {// 8
@@ -16,13 +16,13 @@ public class TestNestedLambdas {
       System.out.println(x);// 20
    }// 21
 
-   private static int accept(TestNestedLambdas.Func func) {
+   private fun accept(func: TestNestedLambdas.Func): int {
       return func.get(0);// 24
    }
 
    @FunctionalInterface
-   private interface Func {
-      int get(int var1);
+   private abstract inner interface Func {
+      abstract fun get(var1: int): int
    }
 }
 

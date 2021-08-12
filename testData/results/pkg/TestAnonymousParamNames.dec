@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-public class TestAnonymousParamNames {
-   private final TestAnonymousParamNames.Clazz reference = new TestAnonymousParamNames.Clazz(0L, false) {
-   };
+open class TestAnonymousParamNames {
+   private val reference: TestAnonymousParamNames.Clazz = new TestAnonymousParamNames.Clazz(0L, false) {
+   }
 
    private class Clazz {
-      public Clazz(long paramL, boolean paramB) {
+      open constructor(paramL: long, paramB: boolean) {
       }// 25
    }
 }

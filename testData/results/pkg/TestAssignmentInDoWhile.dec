@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public class TestAssignmentInDoWhile {
-   public void testPP() {
+open class TestAssignmentInDoWhile {
+   open fun testPP() {
       int x = 3;// 5
 
       while(x < 50 && x++ < 100) {// 7 12
@@ -10,7 +10,7 @@ public class TestAssignmentInDoWhile {
       System.out.println("Hi");// 13
    }// 14
 
-   public void testPE() {
+   open fun testPE() {
       int x = 3;// 17
 
       while(x < 50) {// 19
@@ -23,7 +23,7 @@ public class TestAssignmentInDoWhile {
       System.out.println("Hi");// 25
    }// 26
 
-   public void testPEArray() {
+   open fun testPEArray() {
       int[] array = new int[100];// 29
       int x = 3;// 31
 
@@ -39,7 +39,7 @@ public class TestAssignmentInDoWhile {
       System.out.println("Hi");// 39
    }// 40
 
-   public void testPEArrayBitMask() {
+   open fun testPEArrayBitMask() {
       int[] array = new int[100];// 43
       int x = 3;// 45
 
@@ -49,7 +49,7 @@ public class TestAssignmentInDoWhile {
       System.out.println("Hi");// 53
    }// 54
 
-   public void testPEArrayAnd() {
+   open fun testPEArrayAnd() {
       int[] array = new int[100];// 57
       int x = 3;// 59
 
@@ -65,7 +65,7 @@ public class TestAssignmentInDoWhile {
       System.out.println("Hi");// 67
    }// 68
 
-   public void testPEArrayOr() {
+   open fun testPEArrayOr() {
       int[] array = new int[100];// 71
       int x = 3;// 73
 

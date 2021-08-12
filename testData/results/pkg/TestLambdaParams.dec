@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-import java.util.function.Function;
+import java.util.function.Function
 
-public class TestLambdaParams {
-   public static void toCollection(Object collectionFactory) {
+open class TestLambdaParams {
+   open fun toCollection(collectionFactory: Object) {
       Class a = null;// 23
       Function f = r1 -> {// 24
          return collectionFactory;

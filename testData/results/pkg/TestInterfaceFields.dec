@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-import java.math.BigDecimal;
+import java.math.BigDecimal
 
-public interface TestInterfaceFields {
-   BigDecimal BIG_ZERO = BigDecimal.ZERO;
-   int MAX_BYTE_VALUE = 127;
+abstract interface TestInterfaceFields {
+   val BIG_ZERO: BigDecimal = BigDecimal.ZERO
+   val MAX_BYTE_VALUE: int = 127
 }
 

@@ -1,14 +1,14 @@
-package pkg;
+package pkg
 
-public class TestMultiAssignmentInStaticBlock {
-   private static int i = 124151;
-   private static final int a;
-   private static final int b;
-   private static final int c;
-   private static final int d;
-   private static final int e;
+open class TestMultiAssignmentInStaticBlock {
+   private var i: int = 124151
+   private val a: int
+   private val b: int
+   private val c: int
+   private val d: int
+   private val e: int
 
-   static {
+   open {
       a = i * 11;// 12
       i = i * 14151 + 151 ^ 414;// 13
       b = i * 11;// 14

@@ -1,114 +1,114 @@
-package pkg;
+package pkg
 
-class TestAnonymousClassConstructor {
-   void innerPrivateString() {
+open class TestAnonymousClassConstructor {
+   open fun innerPrivateString() {
       TestAnonymousClassConstructor.InnerPrivateString var10001 = new TestAnonymousClassConstructor.InnerPrivateString("text") {// 5
       };
    }// 6
 
-   void innerPrivate() {
+   open fun innerPrivate() {
       TestAnonymousClassConstructor.InnerPrivate var10001 = new TestAnonymousClassConstructor.InnerPrivate(3L, 4) {// 9
       };
    }// 10
 
-   void innerStaticPrivateString() {
+   open fun innerStaticPrivateString() {
       TestAnonymousClassConstructor.InnerStaticPrivateString var10001 = new TestAnonymousClassConstructor.InnerStaticPrivateString("text") {// 13
       };
    }// 14
 
-   void innerStaticPrivate() {
+   open fun innerStaticPrivate() {
       TestAnonymousClassConstructor.InnerStaticPrivate var10001 = new TestAnonymousClassConstructor.InnerStaticPrivate(3L, 4) {// 17
       };
    }// 18
 
-   static void innerStaticPrivateStringStatic() {
+   open fun innerStaticPrivateStringStatic() {
       TestAnonymousClassConstructor.InnerStaticPrivateString var10001 = new TestAnonymousClassConstructor.InnerStaticPrivateString("text") {// 21
       };
    }// 22
 
-   static void innerStaticPrivateStatic() {
+   open fun innerStaticPrivateStatic() {
       TestAnonymousClassConstructor.InnerStaticPrivate var10001 = new TestAnonymousClassConstructor.InnerStaticPrivate(3L, 4) {// 25
       };
    }// 26
 
-   void innerPublicString() {
+   open fun innerPublicString() {
       TestAnonymousClassConstructor.InnerPublicString var10001 = new TestAnonymousClassConstructor.InnerPublicString("text") {// 29
       };
    }// 30
 
-   void innerPublic() {
+   open fun innerPublic() {
       TestAnonymousClassConstructor.InnerPublic var10001 = new TestAnonymousClassConstructor.InnerPublic(3L, 4) {// 33
       };
    }// 34
 
-   void innerStaticPublicString() {
+   open fun innerStaticPublicString() {
       TestAnonymousClassConstructor.InnerStaticPublicString var10001 = new TestAnonymousClassConstructor.InnerStaticPublicString("text") {// 37
       };
    }// 38
 
-   void innerStaticPublic() {
+   open fun innerStaticPublic() {
       TestAnonymousClassConstructor.InnerStaticPublic var10001 = new TestAnonymousClassConstructor.InnerStaticPublic(3L, 4) {// 41
       };
    }// 42
 
-   static void innerStaticPublicStringStatic() {
+   open fun innerStaticPublicStringStatic() {
       TestAnonymousClassConstructor.InnerStaticPublicString var10001 = new TestAnonymousClassConstructor.InnerStaticPublicString("text") {// 45
       };
    }// 46
 
-   static void innerStaticPublicStatic() {
+   open fun innerStaticPublicStatic() {
       TestAnonymousClassConstructor.InnerStaticPublic var10001 = new TestAnonymousClassConstructor.InnerStaticPublic(3L, 4) {// 49
       };
    }// 50
 
-   static void n(String s) {
+   open fun n(s: String) {
       System.out.println("n(): " + s);// 53
    }// 54
 
-   class InnerPrivate {
-      private InnerPrivate(long a, int b) {
+   open class InnerPrivate {
+      private constructor(a: long, b: int) {
          TestAnonymousClassConstructor.n(a + "+" + b);// 64
       }// 65
    }
 
-   class InnerPrivateString {
-      private InnerPrivateString(String s) {
+   open class InnerPrivateString {
+      private constructor(s: String) {
          TestAnonymousClassConstructor.n(s);// 58
       }// 59
    }
 
-   class InnerPublic {
-      public InnerPublic(long a, int b) {
+   open class InnerPublic {
+      open constructor(a: long, b: int) {
          TestAnonymousClassConstructor.n(a + "+" + b);// 88
       }// 89
    }
 
-   class InnerPublicString {
-      public InnerPublicString(String s) {
+   open class InnerPublicString {
+      open constructor(s: String) {
          TestAnonymousClassConstructor.n(s);// 82
       }// 83
    }
 
-   static class InnerStaticPrivate {
-      private InnerStaticPrivate(long a, int b) {
+   inner open class InnerStaticPrivate {
+      private constructor(a: long, b: int) {
          TestAnonymousClassConstructor.n(a + "+" + b);// 76
       }// 77
    }
 
-   static class InnerStaticPrivateString {
-      private InnerStaticPrivateString(String s) {
+   inner open class InnerStaticPrivateString {
+      private constructor(s: String) {
          TestAnonymousClassConstructor.n(s);// 70
       }// 71
    }
 
-   static class InnerStaticPublic {
-      public InnerStaticPublic(long a, int b) {
+   inner open class InnerStaticPublic {
+      open constructor(a: long, b: int) {
          TestAnonymousClassConstructor.n(a + "+" + b);// 100
       }// 101
    }
 
-   static class InnerStaticPublicString {
-      public InnerStaticPublicString(String s) {
+   inner open class InnerStaticPublicString {
+      open constructor(s: String) {
          TestAnonymousClassConstructor.n(s);// 94
       }// 95
    }

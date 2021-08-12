@@ -1,7 +1,7 @@
-package pkg;
+package pkg
 
-public record TestRecordEmptyConstructor(int val) {
-   public TestRecordEmptyConstructor(int val) {
+data class TestRecordEmptyConstructor(int val) {
+   open constructor(val: int) {
       System.out.println(val);// 5
       this.val = val;// 4
    }// 6

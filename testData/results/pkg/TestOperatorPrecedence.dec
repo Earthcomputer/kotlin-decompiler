@@ -1,13 +1,13 @@
-package pkg;
+package pkg
 
-public class TestOperatorPrecedence {
-   static void test() {
+open class TestOperatorPrecedence {
+   open fun test() {
       Integer a = 3;// 6
       Integer var1;
       System.out.println(var1 = a + 1 + Integer.valueOf(var1 + 1));// 7
    }// 8
 
-   static void test2() {
+   open fun test2() {
       Integer a = 3;// 11
       Integer var1;
       Integer var2;
@@ -15,14 +15,14 @@ public class TestOperatorPrecedence {
       System.out.println(var2);// 13
    }// 14
 
-   static void test3() {
+   open fun test3() {
       Integer a = 3;// 17
       Integer var1;
       Integer var2;
       System.out.println(var1 = a + 1 + var2 = var1 + 1 + Integer.valueOf(var2 + 1));// 18
    }// 19
 
-   static void testNoBox() {
+   open fun testNoBox() {
       int a = 3;// 22
       ++a;
       System.out.println(a++ + a);// 23

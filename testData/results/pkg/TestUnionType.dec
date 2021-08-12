@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-import java.util.Comparator;
+import java.util.Comparator
 
-public interface TestUnionType {
-   static Comparator comparingInt() {
+abstract interface TestUnionType {
+   open fun comparingInt(): Comparator {
       return (c1, c2) -> {// 8
          return 1;
       };

@@ -1,15 +1,14 @@
-package pkg;
+package pkg
 
-public class TestThrowException {
-   Runnable r;
+open class TestThrowException {
+   var r: Runnable = null
 
-   public TestThrowException(int a) {
+   open constructor(a: int) {
       if (a > 0) {// 9
          throw new IllegalArgumentException("xxx");// 10
       } else {
          this.r = new Runnable() {// 12
-            @Override
-            public void run() {
+            override open fun run() {
                int a = 5;// 15
             }// 16
          };
@@ -19,9 +18,9 @@ public class TestThrowException {
 
 class 'pkg/TestThrowException$1' {
    method 'run ()V' {
-      0      12
-      1      12
-      2      13
+      0      11
+      1      11
+      2      12
    }
 }
 
@@ -36,7 +35,7 @@ class 'pkg/TestThrowException' {
       1b      9
       1c      9
       1d      9
-      1e      16
+      1e      15
    }
 }
 
@@ -44,8 +43,8 @@ Lines mapping:
 9 <-> 7
 10 <-> 8
 12 <-> 10
-15 <-> 13
-16 <-> 14
-18 <-> 17
+15 <-> 12
+16 <-> 13
+18 <-> 16
 Not mapped:
 8

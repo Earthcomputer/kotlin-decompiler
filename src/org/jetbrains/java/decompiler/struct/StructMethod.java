@@ -1,6 +1,13 @@
 // Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package org.jetbrains.java.decompiler.struct;
 
+import kotlinx.metadata.KmClass;
+import kotlinx.metadata.KmClassifier;
+import kotlinx.metadata.KmFunction;
+import kotlinx.metadata.KmPackage;
+import kotlinx.metadata.KmType;
+import kotlinx.metadata.KmValueParameter;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.java.decompiler.code.*;
 import org.jetbrains.java.decompiler.main.DecompilerContext;
 import org.jetbrains.java.decompiler.main.extern.IFernflowerPreferences;
@@ -10,8 +17,11 @@ import org.jetbrains.java.decompiler.struct.attr.StructGeneralAttribute;
 import org.jetbrains.java.decompiler.struct.attr.StructGenericSignatureAttribute;
 import org.jetbrains.java.decompiler.struct.attr.StructLocalVariableTableAttribute;
 import org.jetbrains.java.decompiler.struct.consts.ConstantPool;
+import org.jetbrains.java.decompiler.struct.gen.MethodDescriptor;
+import org.jetbrains.java.decompiler.struct.gen.VarType;
 import org.jetbrains.java.decompiler.struct.gen.generics.GenericMain;
 import org.jetbrains.java.decompiler.struct.gen.generics.GenericMethodDescriptor;
+import org.jetbrains.java.decompiler.struct.gen.generics.GenericType;
 import org.jetbrains.java.decompiler.util.DataInputFullStream;
 import org.jetbrains.java.decompiler.util.VBStyleCollection;
 
@@ -71,6 +81,9 @@ public class StructMethod extends StructMember {
   private final String classQualifiedName;
   private final GenericMethodDescriptor signature;
   private IVariableNameProvider renamer;
+
+  private boolean hasCheckedKotlin = false;
+  private KmFunction kmFunction;
 
   private StructMethod(int accessFlags,
                        Map<String, StructGeneralAttribute> attributes,
@@ -408,5 +421,65 @@ public class StructMethod extends StructMember {
 
   public GenericMethodDescriptor getSignature() {
     return signature;
+  }
+
+  @Nullable
+  public KmFunction getKmFunction(StructClass containingClass) {
+    if (hasCheckedKotlin) {
+      return kmFunction;
+    }
+    hasCheckedKotlin = true;
+
+    List<KmFunction> functions;
+
+    KmClass kmClass = containingClass.getKmClass();
+    if (kmClass != null) {
+      functions = kmClass.getFunctions();
+    } else {
+      KmPackage kmPackage = containingClass.getKmPackage();
+      if (kmPackage != null) {
+        functions = kmPackage.getFunctions();
+      } else {
+        return null;
+      }
+    }
+
+    MethodDescriptor desc = MethodDescriptor.parseDescriptor(descriptor);
+    VarType[] actualParams = desc.params;
+    functionLoop:
+    for (KmFunction function : functions) {
+      List<KmType> expectedParams = new ArrayList<>();
+      KmType receiverType = function.getReceiverParameterType();
+      if (receiverType != null) {
+        expectedParams.add(receiverType);
+      }
+      for (KmValueParameter param : function.getValueParameters()) {
+        expectedParams.add(param.getType());
+      }
+
+      if (expectedParams.size() != actualParams.length) {
+        continue;
+      }
+
+      for (int i = 0; i < actualParams.length; i++) {
+        // TODO KOTLIN: make type matching better
+        VarType actualParam = actualParams[i];
+        if (actualParam.isGeneric()) {
+          actualParam = ((GenericType) actualParam).getParent();
+        }
+        KmType expectedParam = expectedParams.get(i);
+        if (!(expectedParam.classifier instanceof KmClassifier.Class)) {
+          continue functionLoop;
+        }
+        VarType expectedType = new VarType(CodeConstants.TYPE_OBJECT, 0, ((KmClassifier.Class) expectedParam.classifier).getName().replace('.', '/'));
+        if (!actualParam.equals(expectedType)) {
+          continue functionLoop;
+        }
+      }
+
+      return kmFunction = function;
+    }
+
+    return null;
   }
 }

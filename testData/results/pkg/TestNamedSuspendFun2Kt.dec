@@ -1,14 +1,12 @@
-package pkg;
+package pkg
 
-import kotlin.Metadata;
-import kotlin.ResultKt;
-import kotlin.coroutines.Continuation;
-import kotlin.coroutines.intrinsics.IntrinsicsKt;
-import kotlin.coroutines.jvm.internal.Boxing;
-import kotlin.coroutines.jvm.internal.ContinuationImpl;
-import kotlin.coroutines.jvm.internal.DebugMetadata;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.intrinsics.IntrinsicsKt
+import kotlin.coroutines.jvm.internal.Boxing
+import kotlin.coroutines.jvm.internal.ContinuationImpl
+import kotlin.coroutines.jvm.internal.DebugMetadata
+import org.jetbrains.annotations.NotNull
+import org.jetbrains.annotations.Nullable
 
 @Metadata(
    mv = {1, 5, 1},
@@ -17,11 +15,11 @@ import org.jetbrains.annotations.Nullable;
    d1 = {"\u0000\n\n\u0000\n\u0002\u0010\b\n\u0002\b\u0003\u001a\u0011\u0010\u0000\u001a\u00020\u0001H\u0086@ø\u0001\u0000¢\u0006\u0002\u0010\u0002\u001a\u0011\u0010\u0003\u001a\u00020\u0001H\u0086@ø\u0001\u0000¢\u0006\u0002\u0010\u0002\u0082\u0002\u0004\n\u0002\b\u0019¨\u0006\u0004"},
    d2 = {"bar", "", "(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", "foo2", "quiltflower_testDataKotlin"}
 )
-public final class TestNamedSuspendFun2Kt {
    @Nullable
-   public static final Object foo2(@NotNull Continuation<? super Integer> var0) {
+   fun foo2(@NotNull var0: Continuation<? super Integer>): Object {
       Continuation $continuation;
 
+      // $FF: synthetic class
       @DebugMetadata(
          f = "TestNamedSuspendFun2.kt",
          l = {5, 8, 8, 8},
@@ -36,17 +34,16 @@ public final class TestNamedSuspendFun2Kt {
          k = 3,
          xi = 48
       )
-      final class NamelessClass_1 extends ContinuationImpl {
-         Object L$0;
-         int label;
+      class NamelessClass_1  : ContinuationImpl() {
+         var L$0: Object = null
+         var label: int = null
 
-         NamelessClass_1(Continuation<? super NamelessClass_1> $completion) {
+         open constructor($completion: Continuation<? super NamelessClass_1>) {
             super($completion);
          }
 
          @Nullable
-         @Override
-         public final Object invokeSuspend(@NotNull Object $result) {
+         override fun invokeSuspend(@NotNull $result: Object): Object {
             this.result = $result;
             this.label |= -2147483648;
             return TestNamedSuspendFun2Kt.foo2(this);
@@ -162,230 +159,230 @@ public final class TestNamedSuspendFun2Kt {
    }
 
    @Nullable
-   public static final Object bar(@NotNull Continuation<? super Integer> $completion) {
+   fun bar(@NotNull $completion: Continuation<? super Integer>): Object {
       return Boxing.boxInt(0);// 14
    }
-}
+
 
 class 'pkg/TestNamedSuspendFun2Kt$foo2$1' {
    method '<init> (Lkotlin/coroutines/Continuation;)V' {
-      1      43
-      2      43
-      3      43
-      4      43
-      5      44
+      1      41
+      2      41
+      3      41
+      4      41
+      5      42
    }
 
    method 'invokeSuspend (Ljava/lang/Object;)Ljava/lang/Object;' {
-      0      49
-      1      49
-      2      49
-      3      49
-      4      49
-      5      50
-      a      50
-      b      50
-      d      50
-      e      50
-      f      50
-      10      51
-      11      51
-      12      51
-      13      51
-      14      51
-      15      51
-      16      51
-      17      51
+      0      46
+      1      46
+      2      46
+      3      46
+      4      46
+      5      47
+      a      47
+      b      47
+      d      47
+      e      47
+      f      47
+      10      48
+      11      48
+      12      48
+      13      48
+      14      48
+      15      48
+      16      48
+      17      48
    }
 }
 
 class 'pkg/TestNamedSuspendFun2Kt' {
    method 'foo2 (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;' {
-      0      56
-      1      56
-      2      56
-      3      56
-      4      56
-      7      57
-      8      57
-      9      57
-      a      57
-      b      57
-      c      58
-      d      58
-      e      58
-      f      58
-      10      58
-      11      58
-      12      58
-      13      58
-      16      59
-      1b      59
-      1c      59
-      1e      59
-      1f      59
-      20      59
-      21      60
-      28      64
-      2c      64
-      2d      71
-      2e      71
-      2f      71
-      30      71
-      31      71
-      32      72
-      33      72
-      34      72
-      35      72
-      36      72
-      37      73
-      38      73
-      39      73
-      3a      73
-      3b      73
-      5c      75
-      5d      75
-      62      120
-      63      119
-      64      119
-      65      119
-      66      119
-      67      119
-      68      120
-      6c      127
-      6d      127
-      6e      127
-      71      128
-      72      128
-      73      128
-      75      79
-      76      79
-      77      79
-      78      79
-      79      80
-      7a      88
-      7b      88
-      7c      88
-      7d      88
-      7e      88
-      7f      88
-      80      88
-      81      89
-      82      89
-      85      160
-      86      159
-      87      159
-      88      159
-      89      159
-      8a      159
-      8b      160
-      8c      160
-      8d      160
-      8f      160
-      90      160
-      91      160
-      94      160
-      95      160
-      97      104
-      98      104
-      99      104
-      9a      104
-      9d      105
-      9e      105
-      9f      105
-      a0      99
-      a1      98
-      a2      98
-      a3      98
-      a4      98
-      a5      98
-      a6      99
-      a7      99
-      a8      99
-      a9      105
-      aa      99
-      ab      99
-      ac      99
-      ad      105
-      ae      105
-      af      100
-      b0      100
-      b1      100
-      b2      105
-      b3      105
-      b4      105
-      b5      105
-      b6      105
-      b7      105
-      b8      105
-      b9      105
-      ba      105
-      bb      105
-      bc      105
-      bd      105
-      be      105
-      bf      105
-      c0      105
-      c1      105
-      c2      105
-      c3      105
-      c4      105
-      c5      105
-      c6      105
-      c7      105
-      c8      105
-      c9      105
-      ca      105
-      cb      105
-      cc      105
-      cd      105
-      ce      105
-      cf      105
-      d0      105
-      d1      105
-      d2      105
-      d3      105
-      d4      105
-      d5      105
-      d6      105
-      d7      105
-      d8      105
-      d9      105
-      da      105
-      db      105
-      dc      105
-      dd      105
-      de      105
-      df      105
-      e0      105
-      e1      105
-      e2      105
-      e3      105
-      e4      105
-      e5      105
-      e6      105
-      ec      114
-      ed      114
-      f1      114
+      0      53
+      1      53
+      2      53
+      3      53
+      4      53
+      7      54
+      8      54
+      9      54
+      a      54
+      b      54
+      c      55
+      d      55
+      e      55
+      f      55
+      10      55
+      11      55
+      12      55
+      13      55
+      16      56
+      1b      56
+      1c      56
+      1e      56
+      1f      56
+      20      56
+      21      57
+      28      61
+      2c      61
+      2d      68
+      2e      68
+      2f      68
+      30      68
+      31      68
+      32      69
+      33      69
+      34      69
+      35      69
+      36      69
+      37      70
+      38      70
+      39      70
+      3a      70
+      3b      70
+      5c      72
+      5d      72
+      62      117
+      63      116
+      64      116
+      65      116
+      66      116
+      67      116
+      68      117
+      6c      124
+      6d      124
+      6e      124
+      71      125
+      72      125
+      73      125
+      75      76
+      76      76
+      77      76
+      78      76
+      79      77
+      7a      85
+      7b      85
+      7c      85
+      7d      85
+      7e      85
+      7f      85
+      80      85
+      81      86
+      82      86
+      85      157
+      86      156
+      87      156
+      88      156
+      89      156
+      8a      156
+      8b      157
+      8c      157
+      8d      157
+      8f      157
+      90      157
+      91      157
+      94      157
+      95      157
+      97      101
+      98      101
+      99      101
+      9a      101
+      9d      102
+      9e      102
+      9f      102
+      a0      96
+      a1      95
+      a2      95
+      a3      95
+      a4      95
+      a5      95
+      a6      96
+      a7      96
+      a8      96
+      a9      102
+      aa      96
+      ab      96
+      ac      96
+      ad      102
+      ae      102
+      af      97
+      b0      97
+      b1      97
+      b2      102
+      b3      102
+      b4      102
+      b5      102
+      b6      102
+      b7      102
+      b8      102
+      b9      102
+      ba      102
+      bb      102
+      bc      102
+      bd      102
+      be      102
+      bf      102
+      c0      102
+      c1      102
+      c2      102
+      c3      102
+      c4      102
+      c5      102
+      c6      102
+      c7      102
+      c8      102
+      c9      102
+      ca      102
+      cb      102
+      cc      102
+      cd      102
+      ce      102
+      cf      102
+      d0      102
+      d1      102
+      d2      102
+      d3      102
+      d4      102
+      d5      102
+      d6      102
+      d7      102
+      d8      102
+      d9      102
+      da      102
+      db      102
+      dc      102
+      dd      102
+      de      102
+      df      102
+      e0      102
+      e1      102
+      e2      102
+      e3      102
+      e4      102
+      e5      102
+      e6      102
+      ec      111
+      ed      111
+      f1      111
    }
 
    method 'bar (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;' {
-      0      165
-      1      165
-      2      165
-      3      165
-      4      165
+      0      162
+      1      162
+      2      162
+      3      162
+      4      162
    }
 }
 
 Lines mapping:
-2 <-> 106
-4 <-> 121
-5 <-> 89
-6 <-> 90
-8 <-> 106
-9 <-> 106
-11 <-> 106
-14 <-> 166
+2 <-> 103
+4 <-> 118
+5 <-> 86
+6 <-> 87
+8 <-> 103
+9 <-> 103
+11 <-> 103
+14 <-> 163
 Not mapped:
 3

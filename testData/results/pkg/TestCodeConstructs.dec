@@ -1,13 +1,13 @@
-package pkg;
+package pkg
 
-class TestCodeConstructs {
-   private int count = 0;
+open class TestCodeConstructs {
+   private var count: int = 0
 
-   void expressions() {
+   open fun expressions() {
       (new String()).hashCode();// 20
    }// 21
 
-   Integer fieldIncrement() {
+   open fun fieldIncrement(): Integer {
       return new Integer(this.count++);// 25
    }
 }

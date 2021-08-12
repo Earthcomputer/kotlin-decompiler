@@ -1,9 +1,9 @@
-package pkg;
+package pkg
 
-import java.util.Calendar;
+import java.util.Calendar
 
-class TestShadowing extends TestShadowingSuperClass {
-   ext.Shadow.B instanceOfB = new ext.Shadow.B();
-   Calendar.Builder calBuilder = new Calendar.Builder();
+open class TestShadowing  : TestShadowingSuperClass() {
+   var instanceOfB: ext.Shadow.B = new ext.Shadow.B()
+   var calBuilder: Calendar.Builder = new Calendar.Builder()
 }
 

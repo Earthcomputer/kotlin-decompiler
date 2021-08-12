@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-public abstract class TestParameterizedTypes<P> {
-   abstract TestParameterizedTypes<P>.Inner<String> getUnspecificInner();
+abstract class TestParameterizedTypes<P> {
+   abstract fun getUnspecificInner(): TestParameterizedTypes<P>.Inner<String>
 
-   abstract TestParameterizedTypes<Number>.Inner<String> getSpecificInner();
+   abstract fun getSpecificInner(): TestParameterizedTypes<Number>.Inner<String>
 
-   public abstract class Inner<I> {
+   abstract class Inner<I> {
    }
 }
 

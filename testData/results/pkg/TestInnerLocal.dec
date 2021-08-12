@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-public class TestInnerLocal {
-   public static void testStaticMethod() {
-      class Inner {
-         final String x;
+open class TestInnerLocal {
+   open fun testStaticMethod() {
+      open class Inner {
+         val x: String = null
 
-         public Inner(@Deprecated String x) {
+         open constructor(@Deprecated x: String) {
             this.x = x;// 8
          }// 9
       }
@@ -15,11 +15,11 @@ public class TestInnerLocal {
       new TestInnerLocal.Inner1Static.Inner2Static("test");// 13
    }// 14
 
-   public void testMethod() {
-      class Inner {
-         final String x;
+   open fun testMethod() {
+      open class Inner {
+         val x: String = null
 
-         public Inner(@Deprecated String x) {
+         open constructor(@Deprecated x: String) {
             this.x = x;// 20
          }// 21
       }
@@ -30,25 +30,25 @@ public class TestInnerLocal {
       new TestInnerLocal.Inner1Static.Inner2Static("test");// 26
    }// 27
 
-   class Inner1 {
-      final String x;
+   open class Inner1 {
+      val x: String = null
 
-      public Inner1(@Deprecated String x) {
+      open constructor(@Deprecated x: String) {
          this.x = x;// 32
       }// 33
    }
 
-   static class Inner1Static {
-      final String x;
+   inner open class Inner1Static {
+      val x: String = null
 
-      public Inner1Static(@Deprecated String x) {
+      open constructor(@Deprecated x: String) {
          this.x = x;// 39
       }// 40
 
-      public static class Inner2Static {
-         final String x;
+      inner open class Inner2Static {
+         val x: String = null
 
-         public Inner2Static(@Deprecated String x) {
+         open constructor(@Deprecated x: String) {
             this.x = x;// 45
          }// 46
       }

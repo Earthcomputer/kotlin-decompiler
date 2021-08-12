@@ -1,4 +1,4 @@
-import sample.pkg1.TestModuleAnno;
+import sample.pkg1.TestModuleAnno
 
 @TestModuleAnno("...")
 module sample.module {

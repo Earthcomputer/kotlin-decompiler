@@ -1,13 +1,13 @@
-package pkg;
+package pkg
 
-class TestAmbiguousCall {
-   void m1(RuntimeException e, String s) {
+open class TestAmbiguousCall {
+   open fun m1(e: RuntimeException, s: String) {
    }// 4
 
-   void m1(IllegalArgumentException e, String s) {
+   open fun m1(e: IllegalArgumentException, s: String) {
    }// 5
 
-   void test() {
+   open fun test() {
       IllegalArgumentException iae = new IllegalArgumentException();// 8
       this.m1((RuntimeException)iae, "RE");// 9
       this.m1(iae, "IAE");// 10

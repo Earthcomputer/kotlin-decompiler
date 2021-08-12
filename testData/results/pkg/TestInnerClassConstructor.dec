@@ -1,26 +1,26 @@
-package pkg;
+package pkg
 
-class TestInnerClassConstructor {
-   void l() {
+open class TestInnerClassConstructor {
+   open fun l() {
       new TestInnerClassConstructor.Inner("text");// 5
    }// 6
 
-   void m() {
+   open fun m() {
       new TestInnerClassConstructor.Another(3, 4);// 9
    }// 10
 
-   void n(String s) {
+   open fun n(s: String) {
       System.out.println("n(): " + s);// 13
    }// 14
 
    private class Another {
-      private Another(int a, int b) {
+      private constructor(a: int, b: int) {
          TestInnerClassConstructor.this.n(a + "+" + b);// 24
       }// 25
    }
 
-   final class Inner {
-      private Inner(String s) {
+   class Inner {
+      private constructor(s: String) {
          TestInnerClassConstructor.this.n(s);// 18
       }// 19
    }

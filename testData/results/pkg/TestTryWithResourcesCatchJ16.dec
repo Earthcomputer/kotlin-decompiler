@@ -1,11 +1,11 @@
-package pkg;
+package pkg
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.File
+import java.io.FileNotFoundException
+import java.util.Scanner
 
-public class TestTryWithResourcesCatchJ16 {
-   public void test(File file) {
+open class TestTryWithResourcesCatchJ16 {
+   open fun test(file: File) {
       try (Scanner scanner = new Scanner(file)) {// 9
          scanner.next();// 10
       } catch (FileNotFoundException var7) {// 11
@@ -14,7 +14,7 @@ public class TestTryWithResourcesCatchJ16 {
 
    }// 14
 
-   public void testFunc(File file) {
+   open fun testFunc(file: File) {
       try (Scanner scanner = this.create(file)) {// 17
          scanner.next();// 18
       } catch (FileNotFoundException var7) {
@@ -22,7 +22,7 @@ public class TestTryWithResourcesCatchJ16 {
       }
    }// 22
 
-   private Scanner create(File file) throws FileNotFoundException {
+   private fun create(file: File): Scanner {
       return new Scanner(file);// 25
    }
 }
