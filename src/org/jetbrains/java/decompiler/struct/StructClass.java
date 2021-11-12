@@ -1,6 +1,8 @@
 // Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package org.jetbrains.java.decompiler.struct;
 
+import kotlinx.metadata.Flag;
+import kotlinx.metadata.FlagsKt;
 import kotlinx.metadata.KmClass;
 import kotlinx.metadata.KmPackage;
 import kotlinx.metadata.jvm.KotlinClassHeader;
@@ -400,6 +402,9 @@ public class StructClass extends StructMember {
 
   @Nullable
   public KmClass getKmClass() {
+    if (kmClass != null) {
+      return kmClass;
+    }
     KotlinClassMetadata metadata = getKotlinMetadata();
     if (metadata instanceof KotlinClassMetadata.Class) {
       if (kmClass == null) {
@@ -426,7 +431,6 @@ public class StructClass extends StructMember {
     return null;
   }
 
-  @Nullable
   public KotlinClassMetadata getKotlinMetadata() {
     if (hasCheckedKotlin) {
       return kotlinMetadata;
@@ -435,7 +439,7 @@ public class StructClass extends StructMember {
 
     StructAnnotationAttribute annotations = getAttribute(StructGeneralAttribute.ATTRIBUTE_RUNTIME_VISIBLE_ANNOTATIONS);
     if (annotations == null) {
-      return null;
+      throw new IllegalStateException("No kotlin.Metadata annotation found");
     }
 
     Integer kind = null;
@@ -445,8 +449,10 @@ public class StructClass extends StructMember {
     String extraString = null;
     String packageName = null;
     Integer extraInt = null;
+    boolean foundKotlinMetadata = false;
     for (AnnotationExprent annotation : annotations.getAnnotations()) {
       if ("kotlin/Metadata".equals(annotation.getClassName())) {
+        foundKotlinMetadata = true;
         for (int i = 0; i < annotation.getParNames().size(); i++) {
           String name = annotation.getParNames().get(i);
           Exprent value = annotation.getParValues().get(i);
@@ -475,6 +481,10 @@ public class StructClass extends StructMember {
           }
         }
       }
+    }
+
+    if (!foundKotlinMetadata) {
+      throw new IllegalStateException("No kotlin.Metadata annotation found");
     }
 
     KotlinClassHeader header = new KotlinClassHeader(kind, metadataVersion, data1, data2, extraString, packageName, extraInt);

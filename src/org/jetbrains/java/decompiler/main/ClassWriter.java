@@ -485,26 +485,18 @@ public class ClassWriter {
     @Nullable KotlinClassMetadata kotlinMetadata = cl.getKotlinMetadata();
     @Nullable KmClass kmClass = cl.getKmClass();
 
-    int flags = node.type == ClassNode.CLASS_ROOT ? cl.getAccessFlags() : node.access;
-    ModifierList modifiers = ModifierList.fromAccessFlags(flags);
-    if (modifiers.has(Modifiers.FINAL)) {
-      modifiers.remove(Modifiers.FINAL);
-    } else if (!modifiers.has(Modifiers.PRIVATE) && !modifiers.has(Modifiers.ABSTRACT)) {
-      modifiers.add(Modifiers.OPEN);
-    }
-    boolean isDeprecated = cl.hasAttribute(StructGeneralAttribute.ATTRIBUTE_DEPRECATED);
-    boolean isSynthetic = (flags & CodeConstants.ACC_SYNTHETIC) != 0 || cl.hasAttribute(StructGeneralAttribute.ATTRIBUTE_SYNTHETIC) || kotlinMetadata instanceof KotlinClassMetadata.SyntheticClass;
-    boolean isEnum = DecompilerContext.getOption(IFernflowerPreferences.DECOMPILE_ENUM) && ((flags & CodeConstants.ACC_ENUM) != 0 || (kmClass != null && Flag.Class.IS_ENUM_CLASS.invoke(kmClass.getFlags())));
-    boolean isInterface = (flags & CodeConstants.ACC_INTERFACE) != 0
-      || (kmClass != null && Flag.Class.IS_INTERFACE.invoke(kmClass.getFlags()))
-      || (kmClass != null && Flag.Class.IS_ANNOTATION_CLASS.invoke(kmClass.getFlags()));
-    boolean isAnnotation = (flags & CodeConstants.ACC_ANNOTATION) != 0 || (kmClass != null && Flag.Class.IS_ANNOTATION_CLASS.invoke(kmClass.getFlags()));
-    boolean isModuleInfo = (flags & CodeConstants.ACC_MODULE) != 0 && cl.hasAttribute(StructGeneralAttribute.ATTRIBUTE_MODULE);
+    int flags = kmClass == null ? 0 : kmClass.getFlags();
+    //boolean isDeprecated = cl.hasAttribute(StructGeneralAttribute.ATTRIBUTE_DEPRECATED);
+    boolean isSynthetic = kotlinMetadata instanceof KotlinClassMetadata.SyntheticClass;
+    boolean isEnum = DecompilerContext.getOption(IFernflowerPreferences.DECOMPILE_ENUM) && Modifiers.ENUM_CLASS.test(flags);
+    boolean isInterface = Modifiers.INTERFACE.test(flags) || Modifiers.ANNOTATION_CLASS.test(flags);
+    boolean isAnnotation = Modifiers.ANNOTATION_CLASS.test(flags);
+    //boolean isModuleInfo = (flags & CodeConstants.ACC_MODULE) != 0 && cl.hasAttribute(StructGeneralAttribute.ATTRIBUTE_MODULE);
     // TODO KOTLIN: multi file class facade
 
-    if (isDeprecated) {
-      appendDeprecation(buffer, indent);
-    }
+//    if (isDeprecated) {
+//      appendDeprecation(buffer, indent);
+//    }
 
     if (interceptor != null) {
       String oldName = interceptor.getOldName(cl.qualifiedName);
@@ -529,46 +521,22 @@ public class ClassWriter {
 
     if (isEnum) {
       // remove abstract and final flags (JLS 8.9 Enums)
-      modifiers.remove(Modifiers.ABSTRACT);
-      modifiers.remove(Modifiers.OPEN);
+      flags = Modifiers.ABSTRACT.remove(flags);
+      flags = Modifiers.OPEN.remove(flags);
     }
 
-    List<StructRecordComponent> components = cl.getRecordComponents();
+//    List<StructRecordComponent> components = cl.getRecordComponents();
+//
+//    if (node.type != ClassNode.CLASS_ROOT && (flags & CodeConstants.ACC_STATIC) != 0) {
+//      modifiers.add(Modifiers.INNER); // TODO KOTLIN: @JvmStatic
+//    }
 
-    if (node.type != ClassNode.CLASS_ROOT && (flags & CodeConstants.ACC_STATIC) != 0) {
-      modifiers.add(Modifiers.INNER); // TODO KOTLIN: @JvmStatic
-    }
-
-    if (modifiers.toJava(buffer)) {
+    if (Modifiers.Type.CLASS.toJava(flags, buffer)) {
       buffer.append(' ');
     }
 
-    if (isEnum) {
-      buffer.append("enum ");
-    }
-    else if (isInterface) {
-      if (isAnnotation) {
-        buffer.append("annotation class ");
-      } else {
-        buffer.append("interface ");
-      }
-    }
-    else if (isModuleInfo) {
-      StructModuleAttribute moduleAttribute = cl.getAttribute(StructGeneralAttribute.ATTRIBUTE_MODULE);
+    // modifiers include "class", "interface", etc.
 
-      if ((moduleAttribute.moduleFlags & CodeConstants.ACC_OPEN) != 0) {
-        buffer.append("open ");
-      }
-
-      buffer.append("module ");
-      buffer.append(moduleAttribute.moduleName);
-    }
-    else if (components != null) {
-      buffer.append("data class "); // TODO KOTLIN @JvmRecord
-    }
-    else {
-      buffer.append("class "); // TODO KOTLIN be smarter with class metadata
-    }
     buffer.append(node.simpleName);
 
     GenericClassDescriptor descriptor = cl.getSignature();
