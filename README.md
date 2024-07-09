@@ -1,3 +1,6 @@
+### Archived
+This project was very incomplete. Use [Vineflower](https://github.com/Vineflower/vineflower/) instead. It has a built-in Kotlin decompiler plugin, which is... less incomplete.
+
 ### Quiltflower
 
 Quiltflower is a fork of Fernflower and ForgeFlower adding additional features for use with the Quilt toolchain.
